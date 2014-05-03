@@ -249,3 +249,51 @@ Week_5:
 
 Python classes
 ========================================================================================================================
+Python classes
+========================================================================================================================
+
+Two of the leading software developers, Martin Fowler and Kent Beck have said in the book Refactoring: Improving the Design 
+of Existing Code that:
+
+	1. Fowler: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand."
+	2. Beck: "I'm not a great programmer, I'm just good a programmer with great habits."
+
+Good coding habits-:
+
+	1. Indent the code  
+	2. Separate logical parts with line breaks
+
+In procedural programming -: 
+
+	A program is divided in to smaller parts, methods. A method works as a separate part of a program and it can be called 
+	from anywhere in the program. 
+
+In object oriented programming -:
+
+		We attempt to divide a program into smaller parts. In object-oriented programming the small parts are objects. 
+		An object contains a related group of information and functionality. Object-oriented programs consist of multiple 
+		objects which together define how the program works.
+
+
+Syntax of creating a class -:
+
+	1. By convention a class name starts with capital letter
+		
+		>>> class Person:
+	
+	2. __init__ method is used for initializing an object belonging to the class
+	
+	3. __str__ method is used for string representation of the class object. It decides what gets printed when print statement calls
+	an object of this class.
+	
+	4. Within class we can add behavior (as functions) defined as usual methods in pyton.
+	
+	
+
+Creating object and accessing methods associated with it -:
+	
+	When doing a method call related to an object (for example, countries.add("Finland")), the name of the object whose 
+	method is being called goes to the left side of the period sign (dot), and to the right side goes the name of the 
+	method itself. 
+	
+
