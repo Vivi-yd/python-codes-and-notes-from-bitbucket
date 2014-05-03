@@ -313,7 +313,7 @@ Object is created by:
 
 methods/functions are defined with in the Class.
 
-method is applied to an object by:
+method is applied to an object by (can only apply to object that created the above mentioned way, not any other types):
 
 >>> object_name.method_name(...arguments needed for the method...)
 
