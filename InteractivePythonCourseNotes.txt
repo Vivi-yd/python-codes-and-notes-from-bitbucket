@@ -243,14 +243,18 @@ Week_5:
 4. Dictionary:
    - only unmutable type can be used as key in dictionary, mutable type such as list and dict are not accepted, 
      however they can be values in a dictionary.
-  
+
+========================================================================================================================
+
+Week_6:
+
+
 #added by ashu774
 --------------------------------------------------------------------------------------------
 
 Python classes
 ========================================================================================================================
-Python classes
-========================================================================================================================
+
 
 Two of the leading software developers, Martin Fowler and Kent Beck have said in the book Refactoring: Improving the Design 
 of Existing Code that:
@@ -275,11 +279,16 @@ In object oriented programming -:
 		objects which together define how the program works.
 
 
+###addtional notes by Vivi_yd:
+
+- A class is a way to define a type of our own, in addition to the built-in type such as list and dictionaries. 
+
+
 Syntax of creating a class -:
 
 	1. By convention a class name starts with capital letter
 		
-		>>> class Person:
+		>>> class Person: ###Here Person is the name of the class that is being defined.
 	
 	2. __init__ method is used for initializing an object belonging to the class
 	
