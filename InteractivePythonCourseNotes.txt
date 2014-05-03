@@ -305,4 +305,15 @@ Creating object and accessing methods associated with it -:
 	method is being called goes to the left side of the period sign (dot), and to the right side goes the name of the 
 	method itself. 
 	
+### Vivi_yd:
+
+Object is created by:
+
+>>> object_name = Class_name(..properties of object..)
+
+methods/functions are defined with in the Class.
+
+method is applied to an object by:
+
+>>> object_name.method_name(...arguments needed for the method...)
 
