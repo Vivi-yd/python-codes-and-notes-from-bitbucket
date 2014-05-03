@@ -288,12 +288,54 @@ Syntax of creating a class -:
 	
 	4. Within class we can add behavior (as functions) defined as usual methods in pyton.
 	
-	
+The __init__ method:
+
+	_init__ is a method which is immediately and automatically called after an instance (object of the class) has been created. This name 
+	is fixed and it is not possible to chose another name. The __init__-method can be anywhere in a class definition, but it is usually the 
+	first method of a class, i.e. it follows right after the class header.	
 
 Creating object and accessing methods associated with it -:
 	
 	When doing a method call related to an object (for example, countries.add("Finland")), the name of the object whose 
 	method is being called goes to the left side of the period sign (dot), and to the right side goes the name of the 
 	method itself. 
+
+A method differs from a function only in two aspects:
 	
+	1. It belongs to a class and it is defined within a class
+	2. The first parameter in the definition of a method has to be a reference to the instance, which called the method. This parameter 
+	is usually called "self".
+
+Data Abstraction = Data Encapsulation + Data Hiding 
+
+	Encapsulation is often accomplished by providing two kinds of methods for attributes: The methods for retrieving or accessing the 
+	values of attributes are called getter methods. Getter methods do not change the values of attributes, they just return the values. 
+	The methods used for changing the values of attributes are called setter methods. 
+
+__str__ and __repr__ methods:
+
+	1. __str__ is always the right choice, if the output should be for the end user or in other words, if it should be nicely printed. 
+	__repr__ on the other hand is used for the internal representation of an object. 
+	
+	2. The output of __repr__ should be - if feasible - a string which can be parsed by the python interpreter. The result of this parsing 
+	is in an equal object. This means, that the following should be true for an object "o": 
+
+	>>> o == eval(repr(o)) 
+	
+
+Restricting access to class attributes-:
+	
+	There are two ways to restrict the access to class attributes:
+	
+	1. We can prefix an attribute name with a leading underscore "_". This marks the attribute as protected. It tells users of the class 
+	not to use this attribute unless, somebody writes a subclass. 
+	
+	2. Second, we can prefix an attribute name with two leading underscores "__". The attribute is now inaccessible and invisible from 
+	outside. It's neither possible to read nor write to those attributes except inside of the class definition itself.
+
+	It is considered a good idea to make the class attributes private. It is suitable with the concept of data abstraction and protects
+	classes.	
+
+
+
 
