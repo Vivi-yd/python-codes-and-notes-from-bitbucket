@@ -288,9 +288,13 @@ Syntax of creating a class -:
 
 	1. By convention a class name starts with capital letter
 		
-		>>> class Person: ###Here Person is the name of the class that is being defined.
+		>>> class Person: ### Here Person is the name of the class that is being defined.
 	
-	2. __init__ method is used for initializing an object belonging to the class
+	2. __init__ method is used for initializing an object belonging to the class 
+       
+       ## Basically is creating the Fields (characteristics) that an object made by that class has.
+       ## First parametre of all classes is "self"
+       ## Object Fields are referenced in class method by: self.field_name
 	
 	3. __str__ method is used for string representation of the class object. It decides what gets printed when print statement calls
 	an object of this class.
