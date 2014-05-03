@@ -243,14 +243,18 @@ Week_5:
 4. Dictionary:
    - only unmutable type can be used as key in dictionary, mutable type such as list and dict are not accepted, 
      however they can be values in a dictionary.
-  
+
+========================================================================================================================
+
+Week_6:
+
+
 #added by ashu774
 --------------------------------------------------------------------------------------------
 
 Python classes
 ========================================================================================================================
-Python classes
-========================================================================================================================
+
 
 Two of the leading software developers, Martin Fowler and Kent Beck have said in the book Refactoring: Improving the Design 
 of Existing Code that:
@@ -275,13 +279,22 @@ In object oriented programming -:
 		objects which together define how the program works.
 
 
+###addtional notes by Vivi_yd:
+
+- A class is a way to define a type of our own, in addition to the built-in type such as list and dictionaries. 
+
+
 Syntax of creating a class -:
 
 	1. By convention a class name starts with capital letter
 		
-		>>> class Person:
+		>>> class Person: ### Here Person is the name of the class that is being defined.
 	
-	2. __init__ method is used for initializing an object belonging to the class
+	2. __init__ method is used for initializing an object belonging to the class 
+       
+       ## Basically is creating the Fields (characteristics) that an object made by that class has.
+       ## First parametre of all classes is "self"
+       ## Object Fields are referenced in class method by: self.field_name
 	
 	3. __str__ method is used for string representation of the class object. It decides what gets printed when print statement calls
 	an object of this class.
@@ -330,6 +343,7 @@ Restricting access to class attributes-:
 	1. We can prefix an attribute name with a leading underscore "_". This marks the attribute as protected. It tells users of the class 
 	not to use this attribute unless, somebody writes a subclass. 
 	
+<<<<<<< HEAD
 	2. Second, we can prefix an attribute name with two leading underscores "__". The attribute is now inaccessible and invisible from 
 	outside. It's neither possible to read nor write to those attributes except inside of the class definition itself.
 
@@ -338,4 +352,17 @@ Restricting access to class attributes-:
 
 
 
+=======
+### Vivi_yd:
+
+Object is created by:
+
+>>> object_name = Class_name(..properties of object..)
+
+methods/functions are defined with in the Class.
+
+method is applied to an object by (can only apply to object that created the above mentioned way, not any other types):
+
+>>> object_name.method_name(...arguments needed for the method...)
+>>>>>>> 4c73392b507b453561e42047c3dad7467ba5a5f9
 
