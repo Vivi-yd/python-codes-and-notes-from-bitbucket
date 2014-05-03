@@ -1,0 +1,251 @@
+#this is for notes taking from "Interactive Python Course" in Coursera by vivi_yd:
+===============================================================================================================
+
+Things to note in corresponding weeks of the course:
+
+Week_zero:
+
+1. Arithmetic Operation:
+   / Division:
+     - will produce int, if Both dividend and divisor are int(differ from python three).
+       e.g. 4/3 = 1
+     - will produce float, if Either dividend or divisor is float.
+       e.g. 1/3.0 = 0.33333......
+	   
+=================================================================================================================
+
+Week_One:
+
+%  Modular Arithmetic
+
+Works on both Postivie and Negative numbers and always give positive number.
+e.g. -3 % 800 = 797
+
+Example application for Modular:
+-Clock arithmetic.
+-Screen Wraping action.
+
+
+Attribute Error: occurs when you mispelt a constant or a call to a function (the part after a period).
+
+=================================================================================================================
+
+Week_Two:
+
+
+1. Event Driven Program:
+
+Program that works this way:
+
+Start -> Initialize -> Wait for some Event to occurs -> execute Handler that assigned to that Event -> Wait again.
+
+It will go on waiting forever even if Event ceased to occur.
+
+###Type of Event:
+   
+   1) Input: button, text box...
+   2) Keyboard: Key up, Key down...
+   3) Mouse: Click, Drag...
+   4) Timer: Periodic
+   
+--------------------------------------------------------------
+   
+2. Global Variables & Local Variables:
+
+-Global Vs are those that defined directly on Python window. Will remain throughout the whole program.
+
+e.g.
+>>> a = 2
+
+
+
+-Local Vs are those that created INSIDE A FUNCTION, and DISAPPEAR once the function call ends, it will NOT AFFECT the Global ones.
+ Local Vs from different functions are not linked. However, it is advisable not to use same names for local and global 
+ variable to avoid confusion.
+
+e.g
+
+def change():
+    a = 3
+    
+Console will still print 2 for variable a AFTER the above function was called.
+
+Global declaration need to be made in function if a global Variable is assigned within the function.
+e.g.
+
+x = 2
+def f(y):
+  global x
+  x = x + y  #x is being reassigned in the function.
+return x
+
+--------------------------------------------------------------
+
+3. SimpleGUI Program templetes:
+
+Always import simplegui
+ 
+1) Define Global Variables (indicating the "state" the program is in)
+
+2) Define any Helper Funcions needed.
+
+3) Classes  ##no idea what is it. 
+
+4) Define Event Handlers
+
+5) Create a Frame.
+
+6) Register Event Handlers.
+
+7) Start Frame and Timers.
+ 
+
+------------------------------------------------------------------
+#added by ashu774 edited by vivi_yd :)
+
+
+4. Adding button in simplegui:
+
+1) Write event handler to be assigned to the button click. (Be careful to declare globals inside these functions if you are
+manipulating any global variables.)
+
+2) Create a frame.
+
+3) On the frame, register event handler (assigning the handler to the button):
+
+format: frame.add_button('Button_name', name_of handler, width of button)
+
+e.g  >>> frame.add_button('Swap', swap, 100) ##100 is width of the button and swap is the name of the event handler
+
+
+------------------------------------------------------------------
+#added by ashu774
+
+5. Adding input fields in simplegui -: 
+
+1) Write event handler for the input (remember whatever user enter is taken to be a string and so a suitable
+type conversion may be needed).
+  >>> def enter(inp):   
+        <block of code>   #enter is the name of the input event handler. inp stores whatever user enters in the field
+                          #as a string, which can then be used inside the function.
+  
+
+2) On the frame, register input handler-:
+  >>> frame.add_input("Enter operand", enter, 100) # event is input handler and 100 is text-box width
+  
+
+=================================================================================================================
+
+Week_Three:
+
+1. Event Driven Drawing:
+
+1) "Frame Buffer" stores 2D grid of pixels which construct the images on monitor.
+
+2) Computers update monitors based on Frame Buffer at a "Refresh Rate" of 60~72/second.
+
+3) Applications will register a special functions called a "Draw Handler" which updates the Frame Buffer by updating the canvas
+   using a collections of "Draw Commands" such as draw_text, draw_circle..etc.
+
+
+2. Canvas:
+
+1) Uses Cartesian Co-ordinates for positioning drawing on canvas [x, y], where the "Origin" [0,0] is always on the Upper Left Corner
+   of the frame.
+   
+   x displaces to the Right.
+   y displaces downward.
+   
+   Therefore, in an m x n canvas, the bottom right corner will be [m-1, n-1].
+   
+====================================================================================================
+
+Week_4:
+
+1. Keyboard input:
+
+1) Use KEY_MAP to see the default key code assigned to each key on the keyboard in order to use it to write in the program.
+  ***Only work for alphabet "a"or "A" to "z" or "Z";numbers; "space"; and the direction keys: "up", "down", "left" and "right". 
+
+2) key_down handler only run ONCE even the key is holded down.
+
+3) All keys can be assigned to a independent event handler.
+
+4) Draw handler cannot contain incremental updates.
+
+-----------------------------------------------------------------
+
+2. Mutation of Lists:
+
+1) Global declaration is not needed when a list (global value) is being mutated in a function, it is assumed to be global inside
+the function.
+
+e.g.
+
+>>> a = [1, 2, 3]
+
+>>> def mutate_list(x):
+>>>     a = x
+
+>>> mutate_list(5)
+
+the global variable a becomes 5, no longer the list.
+
+------------------------------------------------------------------------
+
+3. Tuples:
+
+Has a form of (a, b, c) and act like list but uses parenthesis instead of square brackets.
+Unlike list, tuples are UNMUTABLE.
+Useful when want to protect data from unwanted changes.
+
+***
+Even when lists or tuples look identical, they are NOT THE SAME:
+>>> 1 is 1
+>>> True
+But
+>>> [a, b, c] is [a, b, c]
+>>> False
+>>> (a, b, c) is (a, b, c)
+>>> False
+
+==================================================================================================
+
+Week_5:
+
+1. Mouse Input:
+   - mouse click handler takes in a tuple as an argument. Thus cannot be modify unless the type is changed.
+   
+2. List methods:
+   - append
+   - remove
+   - pop
+   - in
+   - index
+   - for loop (iteration)
+   *** note: remove method Cannot be used during iteration of a list, it will cause misbehave of the program,
+        instead keep tracks of things that desired to be removed and exacute after the iteration.
+
+3. List Comprihension:
+
+   -Another way of doing iteration by creating a list of items in which only the desired one 
+    is added from evaluating each item in the original list.
+   
+   e.g.>>> return [n ** 2 for n in numbers]
+   
+   where it could have been written as:
+   >>> for n in numbers:
+   
+          result.append(n ** 2)
+       
+       return result
+
+4. Dictionary:
+   - only unmutable type can be used as key in dictionary, mutable type such as list and dict are not accepted, 
+     however they can be values in a dictionary.
+  
+#added by ashu774
+--------------------------------------------------------------------------------------------
+
+Python classes
+========================================================================================================================
