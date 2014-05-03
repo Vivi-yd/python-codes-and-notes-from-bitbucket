@@ -343,7 +343,7 @@ Restricting access to class attributes-:
 	1. We can prefix an attribute name with a leading underscore "_". This marks the attribute as protected. It tells users of the class 
 	not to use this attribute unless, somebody writes a subclass. 
 	
-<<<<<<< HEAD
+
 	2. Second, we can prefix an attribute name with two leading underscores "__". The attribute is now inaccessible and invisible from 
 	outside. It's neither possible to read nor write to those attributes except inside of the class definition itself.
 
@@ -364,5 +364,5 @@ methods/functions are defined with in the Class.
 method is applied to an object by (can only apply to object that created the above mentioned way, not any other types):
 
 >>> object_name.method_name(...arguments needed for the method...)
->>>>>>> 4c73392b507b453561e42047c3dad7467ba5a5f9
+
 
