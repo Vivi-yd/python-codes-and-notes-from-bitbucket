@@ -7,8 +7,8 @@ class Vector:
     
     ##in the init method we will set its components as privates
     def __init__(self, x, y, z):
-        self.__x = x
-        self.__y = y
+        self.__x = x   ### the double underscore "__" that preceed the name is to make that particular
+        self.__y = y   ### attribute inaccessible from the outside (users), making it unalterable.
         self.__z = z
     
     ##string reprsentation of the vector class
@@ -29,7 +29,7 @@ class Vector:
         return self.__y
 
     def getZ(self):
-        return self._z
+        return self._z ##does this should have one more underscore??
 
     #get the length of vector
     def length(self):
