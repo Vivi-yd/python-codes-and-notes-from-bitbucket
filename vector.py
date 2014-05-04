@@ -29,7 +29,7 @@ class Vector:
         return self.__y
 
     def getZ(self):
-        return self._z ##does this should have one more underscore??
+        return self.__z 
 
     #get the length of vector
     def length(self):
