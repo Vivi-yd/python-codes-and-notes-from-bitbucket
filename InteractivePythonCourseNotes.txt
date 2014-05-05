@@ -366,3 +366,19 @@ method is applied to an object by (can only apply to object that created the abo
 >>> object_name.method_name(...arguments needed for the method...)
 
 
+
+------------------------------------------------------------------------------------------------------------------------------
+#by ashu774
+
+Method on an object
+=============================================================================================================
+
+	Python binds all the methods from the class to any instance of that class. It is self-sufficient in a way. It has its own
+	location in the memory for every object created.
+	
+	>>> m = Robot("Veronica", 2010).getBuildYear
+	>>> m.__self__
+	<__main__.Robot instance at 0xa409b2c>
+	
+	
+ 
