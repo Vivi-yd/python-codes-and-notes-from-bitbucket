@@ -1,0 +1,23 @@
+1. Card Value:
+   
+   Number cards has the value equal to the numbers.
+   Face card (J, Q, K) has the value of 10.
+   Aces can be either 1 or 11.
+   
+2. Gameplay:
+
+   The game is play by a Dealer and a Player.
+   
+   Game start by dealing 2 cards to both the Dealer and the Players, where the Dealer has one card hidden (hole card).
+   After having 2 cards at hands, the Player can decide to "Stand" or "Hit".
+   When "Hit" is chosen, the Player is dealt another card. If the Player's hand exceed a value of 21, he is busted.
+   If not, the Player can again choose to "Stand" or "Hit".
+   If "Stand" is chosen, the Player's round ends, and the Dealer's hole card is revealed and gets to deal cards 
+   until it reaches 17 (soft limit) or higher but lower than 21, then the Dealer is force to "Stand" as well.
+   If both players did not get busted, then the values of both hands are compared and the one that got closer or equal to 21 win!
+   In this Course, if it ends with ties, the Dealer wins.
+   
+That's it! Hope I did well :)
+
+Your app/ :P
+   
