@@ -58,7 +58,7 @@ class Hand:
         
         s = "Hand contains "
         for card in self.cards_in_hand:
-            s += card.suit + card.rank + " "
+            s += str(card) + " "
         return s 
 
     def add_card(self, card):
@@ -74,22 +74,34 @@ class Hand:
         pass	# draw a hand on the canvas, use the draw method for cards
  
         
-# define deck class 
+# define deck class
+
 class Deck:
     def __init__(self):
-        pass	# create a Deck object
+        self.cards_in_deck = []
+        for suit in SUITS:
+            for rank in RANKS:
+                deck_card = Card(suit, rank)
+                self.cards_in_deck.append(deck_card)
+        
+        
 
     def shuffle(self):
-        # shuffle the deck 
-        pass    # use random.shuffle()
+        # shuffle the deck
+        random.shuffle(self.cards_in_deck)
+        
 
     def deal_card(self):
-        pass	# deal a card object from the deck
+        card_index = range(0, 52)
+        return self.cards_in_deck.pop(random.choice(card_index))
+        
     
     def __str__(self):
-        pass	# return a string representing the deck
-
-
+        s = "Deck contains "
+        for card in self.cards_in_deck:
+            s += str(card) + " "
+        return s
+        
 
 #define event handlers for buttons
 def deal():
