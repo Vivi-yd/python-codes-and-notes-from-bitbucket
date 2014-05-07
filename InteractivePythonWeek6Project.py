@@ -101,15 +101,35 @@ class Deck:
         for card in self.cards_in_deck:
             s += str(card) + " "
         return s
-        
+ 
+#globals for deal button
+cards_in_deck = Deck()
+player_hand = Hand()
+dealer_hand = Hand()    
 
 #define event handlers for buttons
 def deal():
-    global outcome, in_play
-
-    # your code goes here
+    
+    global outcome, in_play, cards_in_deck, player_hand, dealer_hand
+    
+    
+    cards_in_deck.shuffle()
+    
+    player_hand = Hand()
+    dealer_hand = Hand()
+    for i in range(2):
+        player_hand.add_card(cards_in_deck.deal_card())
+        dealer_hand.add_card(cards_in_deck.deal_card())
+    outcome = "Hit or Stand?"
+    print "Player Hand now contains " + str(player_hand)
+    print "Dealer Hand now contains " + str(dealer_hand)
+    
+    print outcome
     
     in_play = True
+    
+    if in_play:
+        print "player turns"
 
 def hit():
     pass	# replace with your code below
