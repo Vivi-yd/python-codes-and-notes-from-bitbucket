@@ -55,11 +55,14 @@ class Hand:
         pass	# create Hand object
 
     def __str__(self):
-        return "Hand contains " + str(self.cards_in_hand)
-        pass	# return a string representation of a hand
+        
+        s = "Hand contains "
+        for card in self.cards_in_hand:
+            s += card.suit + card.rank + " "
+        return s 
 
     def add_card(self, card):
-        self.cards_in_hand = self.cards_in_hand.append(card)
+        self.cards_in_hand.append(card)
         pass	# add a card object to a hand
 
     def get_value(self):
