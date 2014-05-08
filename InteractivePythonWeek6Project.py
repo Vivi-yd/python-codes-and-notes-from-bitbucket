@@ -154,11 +154,15 @@ def deal():
         print "player turns"
 
 def hit():
-    pass	# replace with your code below
- 
-    # if the hand is in play, hit the player
-   
-    # if busted, assign a message to outcome, update in_play and score
+    player_hand = Hand()
+    if player_hand.get_value() <= 21 and in_play == True:
+        player_hand.add_card()
+        
+    else:
+        outcome = "You have busted"
+        
+        return outcome
+
        
 def stand():
     pass	# replace with your code below
