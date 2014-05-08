@@ -22,6 +22,19 @@ SUITS = ('C', 'S', 'H', 'D')
 RANKS = ('A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K')
 VALUES = {'A':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, 'T':10, 'J':10, 'Q':10, 'K':10}
 
+#global for drawing
+
+CANVAS_WIDTH = 600
+CANVAS_HEIGHT = 600
+TITLE = "WELCOME TO BLACKJACK!"
+TITLE_SIZE = 40
+TITLE_FONT = "monospace"
+TEXT_COLOUR = "yellow"
+MESSAGE_FONT = "sans-serif"
+MESSAGE_SIZE = 30
+MESSAGE_COLOUR = "aqua"
+
+
 
 # define card class
 class Card:
@@ -95,7 +108,12 @@ class Hand:
         
    
     def draw(self, canvas, pos):
-        pass	# draw a hand on the canvas, use the draw method for cards
+        i = 0
+        
+        for card in self.cards_in_hand:
+            card.draw(canvas, ((pos[0] + 80 * i), pos[1]))
+            
+            i += 1
  
         
 # define deck class
@@ -185,7 +203,7 @@ def hit():
 
        
 def stand():
-    global outcome
+    global outcome, in_play
     in_play = False
     while dealer_hand.get_value() < 17 and in_play == False:
         dealer_hand.add_card(cards_in_deck.deal_card())
@@ -208,14 +226,28 @@ def stand():
     
 # draw handler    
 def draw(canvas):
-    # test to make sure that card.draw works, replace with your code below
+    #drawing cards in both hands
+    player_hand.draw(canvas, (50, 400))
+    dealer_hand.draw(canvas, (50, 150))
     
-    card = Card("S", "A")
-    card.draw(canvas, [300, 300])
+    #title
+    title_text_width = frame.get_canvas_textwidth(TITLE, TITLE_SIZE, TITLE_FONT)
+    canvas.draw_text(TITLE, [CANVAS_WIDTH/2 - title_text_width/2, 30],
+                     TITLE_SIZE, TEXT_COLOUR, TITLE_FONT)
+    #message for player
+    message_width = frame.get_canvas_textwidth(outcome, MESSAGE_SIZE, MESSAGE_FONT)
+    canvas.draw_text(outcome, [CANVAS_WIDTH - (30 + message_width), CANVAS_HEIGHT/2], 
+                     MESSAGE_SIZE, MESSAGE_COLOUR, MESSAGE_FONT)
+    
+    #drawing "hole card" if it's player turn
+    if in_play:
+        canvas.draw_image(card_back, CARD_BACK_CENTER, CARD_BACK_SIZE, 
+                          [(50 + CARD_SIZE[0]/2), (150 + CARD_SIZE[1]/2) ], 
+                          CARD_BACK_SIZE)
 
 
 # initialization frame
-frame = simplegui.create_frame("Blackjack", 600, 600)
+frame = simplegui.create_frame("Blackjack", CANVAS_WIDTH, CANVAS_HEIGHT)
 frame.set_canvas_background("Green")
 
 #create buttons and canvas callback
