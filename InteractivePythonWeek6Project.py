@@ -15,7 +15,7 @@ card_back = simplegui.load_image("http://commondatastorage.googleapis.com/codesk
 # initialize some useful global variables
 in_play = False
 outcome = ""
-score = 0
+score = 20
 
 # define globals for cards
 SUITS = ('C', 'S', 'H', 'D')
@@ -151,20 +151,27 @@ dealer_hand = Hand()
 #define event handlers for buttons
 def deal():
     
-    global outcome, in_play, cards_in_deck, player_hand, dealer_hand
+    global outcome, in_play, cards_in_deck, player_hand, dealer_hand, score
+    
+    if in_play:
+        outcome = "You gave up, Dealer win!"
+        score -= 10
+        
+    else:
+        cards_in_deck = Deck()
+        cards_in_deck.shuffle()
+    
+        player_hand = Hand()
+        dealer_hand = Hand()
+        for i in range(2):
+            player_hand.add_card(cards_in_deck.deal_card())
+            dealer_hand.add_card(cards_in_deck.deal_card())
     
     
-    cards_in_deck.shuffle()
-    
-    player_hand = Hand()
-    dealer_hand = Hand()
-    for i in range(2):
-        player_hand.add_card(cards_in_deck.deal_card())
-        dealer_hand.add_card(cards_in_deck.deal_card())
+        outcome = "Hit or Stand?"
+        in_play = True
     
     
-    outcome = "Hit or Stand?"
-    in_play = True
     
     #remove this print statements later
     print "Player hand: " + str(player_hand)
@@ -177,9 +184,11 @@ def deal():
     
     
     
+    
+    
 
 def hit():
-    global outcome, in_play
+    global outcome, in_play, score
     
     if player_hand.get_value() <= 21 and in_play:
         player_hand.add_card(cards_in_deck.deal_card())
@@ -200,21 +209,25 @@ def hit():
         outcome = "You have busted, Deal again?"
         in_play = False
         print outcome
+        score -= 10
 
        
 def stand():
-    global outcome, in_play
+    global outcome, in_play, score
     in_play = False
     while dealer_hand.get_value() < 17 and in_play == False:
         dealer_hand.add_card(cards_in_deck.deal_card())
     
     if dealer_hand.get_value() > 21:
         outcome = "Dealer has busted, Deal again?"
+        score += 10
     else:
         if dealer_hand.get_value() >= player_hand.get_value():
             outcome = "Dealer win! Deal again?"
+            score -= 10
         else:
             outcome = "Congratz! You win! Deal again?"
+            score += 10
             
     #remove this print statements later
     print "Player hand: " + str(player_hand)
@@ -244,6 +257,12 @@ def draw(canvas):
         canvas.draw_image(card_back, CARD_BACK_CENTER, CARD_BACK_SIZE, 
                           [(50 + CARD_SIZE[0]/2), (150 + CARD_SIZE[1]/2) ], 
                           CARD_BACK_SIZE)
+    #drawing score to canvas
+    score_message = "Your money: " + str(score)
+    score_width = frame.get_canvas_textwidth(score_message,
+                                             MESSAGE_SIZE, MESSAGE_FONT)
+    canvas.draw_text(score_message, [CANVAS_WIDTH - (30 + score_width), CANVAS_HEIGHT*0.6]
+                        ,MESSAGE_SIZE, "black", MESSAGE_FONT)
 
 
 # initialization frame
