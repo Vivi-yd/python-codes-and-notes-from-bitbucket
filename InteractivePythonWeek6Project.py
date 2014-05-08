@@ -154,23 +154,37 @@ def deal():
         print "player turns"
 
 def hit():
-    player_hand = Hand()
+    global outcome, in_play
+    
     if player_hand.get_value() <= 21 and in_play == True:
-        player_hand.add_card()
+        player_hand.add_card(deck.deal_card)
         
-    else:
-        outcome = "You have busted"
+        if player_hand.get_value() <= 21:
+            outcome = "Hit or Stand?"
+            in_play = True
         
-        return outcome
+        else:
+            outcome = "You have busted, Deal again?"
+            in_play = False
+        
+    return outcome
+    return in_play    
 
        
 def stand():
-    pass	# replace with your code below
-   
-    # if hand is in play, repeatedly hit dealer until his hand has value 17 or more
-
-    # assign a message to outcome, update in_play and score
-
+    global outcome
+    
+    while dealer_hand.get_value() < 17 and in_play == False:
+        dealer_hand.add_card(deck.deal_card)
+    
+    if dealer_hand.get_value > 21:
+        outcome = "Dealer has busted, Deal again?"
+    else:
+        if dealer_hand.get_value >= player_hand.get_value:
+            outcome = "Dealer win! Deal again?"
+        else:
+            outcome = "Congratz! You win! Deal again?"
+    
 # draw handler    
 def draw(canvas):
     # test to make sure that card.draw works, replace with your code below
