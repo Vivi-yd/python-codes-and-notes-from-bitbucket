@@ -153,25 +153,22 @@ def deal():
     
     global outcome, in_play, cards_in_deck, player_hand, dealer_hand, score
     
+    cards_in_deck = Deck()
+    cards_in_deck.shuffle()
+    
+    player_hand = Hand()
+    dealer_hand = Hand()
+    for i in range(2):
+        player_hand.add_card(cards_in_deck.deal_card())
+        dealer_hand.add_card(cards_in_deck.deal_card())
+    outcome = "Hit or Stand?"
+    
     if in_play:
         outcome = "You gave up, Dealer win!"
         score -= 10
-        
-    else:
-        cards_in_deck = Deck()
-        cards_in_deck.shuffle()
-    
-        player_hand = Hand()
-        dealer_hand = Hand()
-        for i in range(2):
-            player_hand.add_card(cards_in_deck.deal_card())
-            dealer_hand.add_card(cards_in_deck.deal_card())
     
     
-        outcome = "Hit or Stand?"
-        in_play = True
-    
-    
+    in_play = True
     
     #remove this print statements later
     print "Player hand: " + str(player_hand)
