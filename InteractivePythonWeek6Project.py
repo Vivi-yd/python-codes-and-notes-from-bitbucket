@@ -51,8 +51,9 @@ class Card:
 # define hand class
 class Hand:
     def __init__(self):
+        # create Hand object
         self.cards_in_hand = [] 
-        pass	# create Hand object
+        
 
     def __str__(self):
         
@@ -62,8 +63,9 @@ class Hand:
         return s 
 
     def add_card(self, card):
+        # add a card object to a hand
         self.cards_in_hand.append(card)
-        pass	# add a card object to a hand
+            
 
     def get_value(self):
         aces = 0
@@ -114,8 +116,7 @@ class Deck:
         
 
     def deal_card(self):
-        card_index = range(0, 52)
-        return self.cards_in_deck.pop(random.choice(card_index))
+        return self.cards_in_deck.pop()
         
     
     def __str__(self):
@@ -142,48 +143,68 @@ def deal():
     for i in range(2):
         player_hand.add_card(cards_in_deck.deal_card())
         dealer_hand.add_card(cards_in_deck.deal_card())
+    
+    
     outcome = "Hit or Stand?"
-    print "Player Hand now contains " + str(player_hand)
-    print "Dealer Hand now contains " + str(dealer_hand)
-    
-    print outcome
-    
     in_play = True
     
-    if in_play:
-        print "player turns"
+    #remove this print statements later
+    print "Player hand: " + str(player_hand)
+    print "Dealer hand: " + str(dealer_hand)
+    print "Player value: " , str(player_hand.get_value())
+    print "Dealer value: " , str(dealer_hand.get_value())
+    print "-------------------------------------"
+    print outcome
+    
+    
+    
+    
 
 def hit():
     global outcome, in_play
     
-    if player_hand.get_value() <= 21 and in_play == True:
-        player_hand.add_card(deck.deal_card)
+    if player_hand.get_value() <= 21 and in_play:
+        player_hand.add_card(cards_in_deck.deal_card())
         
-        if player_hand.get_value() <= 21:
-            outcome = "Hit or Stand?"
-            in_play = True
+    #remove this print statements later
+    print "Player hand: " + str(player_hand)
+    print "Dealer hand: " + str(dealer_hand)
+    print "Player value: " , str(player_hand.get_value())
+    print "Dealer value: " , str(dealer_hand.get_value())
+    print "-------------------------------------"
+
+    if player_hand.get_value() <= 21:
+        outcome = "Hit or Stand?"
+        in_play = True
+        print outcome
         
-        else:
-            outcome = "You have busted, Deal again?"
-            in_play = False
-        
-    return outcome
-    return in_play    
+    else:
+        outcome = "You have busted, Deal again?"
+        in_play = False
+        print outcome
 
        
 def stand():
     global outcome
-    
+    in_play = False
     while dealer_hand.get_value() < 17 and in_play == False:
-        dealer_hand.add_card(deck.deal_card)
+        dealer_hand.add_card(cards_in_deck.deal_card())
     
-    if dealer_hand.get_value > 21:
+    if dealer_hand.get_value() > 21:
         outcome = "Dealer has busted, Deal again?"
     else:
-        if dealer_hand.get_value >= player_hand.get_value:
+        if dealer_hand.get_value() >= player_hand.get_value():
             outcome = "Dealer win! Deal again?"
         else:
             outcome = "Congratz! You win! Deal again?"
+            
+    #remove this print statements later
+    print "Player hand: " + str(player_hand)
+    print "Dealer hand: " + str(dealer_hand)
+    print "Player value: " , str(player_hand.get_value())
+    print "Dealer value: " , str(dealer_hand.get_value())
+    print "-------------------------------------"
+    print outcome
     
 # draw handler    
 def draw(canvas):
