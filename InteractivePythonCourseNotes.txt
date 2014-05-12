@@ -379,6 +379,31 @@ Method on an object
 	>>> m = Robot("Veronica", 2010).getBuildYear
 	>>> m.__self__
 	<__main__.Robot instance at 0xa409b2c>
+    
+    
+===========================================================================================================================
+
+Week_7:
+
+1. - Sprite -- collections of 2D images, used as graphical overlay in a program, whether an preloaded image, or objects drawn in canvas..
+   
+   - Transparency of Sprite: Alpha value or the "a" in the rgba (red, green, blue, alpha) code determines the opacity of
+     a sprite, ranging from 0(transparent) to 1(opaque).
+     
+2. - Sound: be sure to check types of supported file (mp3, mp4, ogg etc.) in different browser, as no errors will be thrown if it 
+     is not a supported file, only that no sound will be played. 
+
+
+Some programming tips:
+
+- Avoid repeated code in any program, instead encapsulate repeated action into a function or method and call it with different
+  variables for different object.
+  
+- Mapping method names in a dict also a good way to call by indexing.
+
+- Avoid using magic constants (values that has no name or reasons to exist), name variables and constants, also using arithmatic
+  computation for dependent values of those constants. 
+   
 	
 	
  
