@@ -13,8 +13,8 @@ time = 0.5
 
 INIT_VEL = [1, 1]
 ANG_ACCN = 0.2
-ACC_FRAC = INIT_VEL[0]*0.2
-FRIC_FRAC = ACC_FRAC *0.1
+ACC_FRAC = INIT_VEL[0]*0.3
+FRIC_FRAC = ACC_FRAC*0.1
 
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
@@ -111,6 +111,12 @@ class Ship:
             canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
 
     def update(self):
+        
+        #add some friction to the ship
+        
+        for i in range(2):
+            self.vel[i] *= (1 - FRIC_FRAC)
+        
         #updating position with respect to velocity
         for i in range(2):
             self.pos[i] = (self.pos[i] +self.vel[i]) % DIMENSION[i]
@@ -119,6 +125,8 @@ class Ship:
         self.angle += self.angle_vel
         #calculating forward vector given the ship's angle
         forward_vec = angle_to_vector(self.angle)
+        
+        
         
         #accelerates ship if thrusting
         if self.thrust:
@@ -135,9 +143,7 @@ class Ship:
         else:
             self.thrust = False
             ship_thrust_sound.rewind()
-     
-        
-    
+         
     
 # Sprite class
 class Sprite:
@@ -228,3 +234,4 @@ timer.start()
 frame.start()
 
 ##Some print statement for testing
+
