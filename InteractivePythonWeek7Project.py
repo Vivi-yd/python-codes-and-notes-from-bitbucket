@@ -1,4 +1,4 @@
-# program template for Spaceship
+# Implementation by Vivi.
 import simplegui
 import math
 import random
@@ -7,17 +7,14 @@ import random
 WIDTH = 800
 HEIGHT = 600
 DIMENSION = [WIDTH, HEIGHT]
-ANGULAR_ACC = 0.25
 score = 0
 lives = 3
 time = 0.5
-#fraction of the  forward acceleration vector 
-FRACTION = 0.1
-#friction factor
-FRICTION = 0.02
 
-#rock's angular accelration
-ROCK_ANGULAR_ACC = 0.04
+INIT_VEL = [1, 1]
+ANG_ACCN = 0.2
+ACC_FRAC = INIT_VEL[0]*0.2
+FRIC_FRAC = ACC_FRAC *0.1
 
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
@@ -94,7 +91,7 @@ def dist(p,q):
 
 # Ship class
 class Ship:
-    def __init__(self, pos, vel, angle , image, info):
+    def __init__(self, pos, vel, angle, image, info):
         self.pos = [pos[0],pos[1]]
         self.vel = [vel[0],vel[1]]
         self.thrust = False
@@ -106,39 +103,42 @@ class Ship:
         self.radius = info.get_radius()
         
     def draw(self,canvas):
-        if not self.thrust:
-            canvas.draw_image(self.image, self.image_center,self.image_size, self.pos,self.image_size, self.angle )
-        #if thrust is on this image should be displayed
-        else:
-            canvas.draw_image(self.image, [135, 45],self.image_size, self.pos,self.image_size, self.angle )
-                    
-    def update(self):
-        #get the friction into play 
-        for i in range(2):
-            self.vel[i] = (1 - FRICTION) * self.vel[i]
-        
-        #get the forward vector (unit vector for acclerartion)
-        forwardVector = angle_to_vector(self.angle)
+        #spaceship image when thrusting
         if self.thrust:
-            for i in range(2):
-                self.vel[i] += FRACTION * forwardVector[i]
-        
-        #update translation position of the ship 
+            canvas.draw_image(self.image, [self.image_center[0] + self.image_size[0], self.image_center[0]],self.image_size, self.pos,self.image_size, self.angle )
+        #spaceship image when not thrusting
+        else:    
+            canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
+
+    def update(self):
+        #updating position with respect to velocity
         for i in range(2):
             self.pos[i] = (self.pos[i] +self.vel[i]) % DIMENSION[i]
-        #update angular position of the ship
-        self.angle += self.angle_vel        
-
-    def thrusting(self, boolean):
-        if boolean:
+            
+        #updating angle with respect to angular velocity
+        self.angle += self.angle_vel
+        #calculating forward vector given the ship's angle
+        forward_vec = angle_to_vector(self.angle)
+        
+        #accelerates ship if thrusting
+        if self.thrust:
+            for i in range(2):
+                self.vel[i] += ACC_FRAC*forward_vec[i]
+    
+    #action taken when spaceship is thrusting/not thrusting
+    
+    def is_thrusting(self, thrusting):
+        
+        if thrusting:
             self.thrust = True
             ship_thrust_sound.play()
-            
         else:
             self.thrust = False
             ship_thrust_sound.rewind()
-            
-
+     
+        
+    
+    
 # Sprite class
 class Sprite:
     def __init__(self, pos, vel, ang, ang_vel, image, info, sound = None):
@@ -158,18 +158,10 @@ class Sprite:
             sound.play()
    
     def draw(self, canvas):
-        canvas.draw_image(self.image, self.image_center,self.image_size, self.pos,self.image_size, self.angle )
+        canvas.draw_circle(self.pos, self.radius, 1, "Red", "Red")
     
     def update(self):
-        #update angular position of the sprite
-        self.angle += self.angle_vel
-        #update translation position of the sprite
-        for i in range(2):
-            self.pos[i] = (self.pos[i] +self.vel[i]) % DIMENSION[i]
-        
-        
-        
-                
+        pass        
 
            
 def draw(canvas):
@@ -196,47 +188,31 @@ def draw(canvas):
             
 # timer handler that spawns a rock    
 def rock_spawner():
-    global time, a_rock
-    #random position
-    randomPos = [random.randrange(WIDTH), random.randrange(HEIGHT)]
-    #random velocity
-    randomVel = [0.03 * random.randrange(10, 50) * random.choice([1, -1]), 
-                 0.03 * random.randrange(10, 50) * random.choice([1, -1])]
-    #random angular velocity
-    randomAngularVel = 0.001 * random.randrange(20, 80) * random.choice([1, -1])
-    #create rock
-    #(self, pos, vel, ang, ang_vel, image, info, sound = None)
-    a_rock = Sprite(randomPos, randomVel, 0, randomAngularVel, asteroid_image, asteroid_info)
-    time = time + 1
-    
+    pass
 
+# key down handlers
 
-#keydown event
 def keydown(key):
-    if key == simplegui.KEY_MAP['left']:
-        my_ship.angle_vel -=  ANGULAR_ACC 
+    if key == simplegui.KEY_MAP["left"]:
+        my_ship.angle_vel -=  ANG_ACCN 
 
-    elif key == simplegui.KEY_MAP['right']:
-        my_ship.angle_vel +=  ANGULAR_ACC
-
-    elif key == simplegui.KEY_MAP['up']:
-        my_ship.thrusting(True)
-
-    elif key == simplegui.KEY_MAP['down']:
-        my_ship.thrusting(False)
+    elif key == simplegui.KEY_MAP["right"]:
+        my_ship.angle_vel +=  ANG_ACCN
         
+    elif key == simplegui.KEY_MAP["up"]:
+        my_ship.is_thrusting(True)
+        
+# key up handlers
 
 def keyup(key):
     my_ship.angle_vel = 0
-    my_ship.thrusting(False)
-    
-    
+    my_ship.is_thrusting(False)
     
 # initialize frame
 frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
 
 # initialize ship and two sprites
-my_ship = Ship([WIDTH / 2, HEIGHT / 2], [1, -0.5], 0, ship_image, ship_info)
+my_ship = Ship([WIDTH / 2, HEIGHT / 2], INIT_VEL, 0, ship_image, ship_info)
 a_rock = Sprite([WIDTH / 3, HEIGHT / 3], [1, 1], 0, 0, asteroid_image, asteroid_info)
 a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image, missile_info, missile_sound)
 
@@ -244,8 +220,11 @@ a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image,
 frame.set_draw_handler(draw)
 frame.set_keydown_handler(keydown)
 frame.set_keyup_handler(keyup)
+
 timer = simplegui.create_timer(1000.0, rock_spawner)
 
 # get things rolling
 timer.start()
 frame.start()
+
+##Some print statement for testing
