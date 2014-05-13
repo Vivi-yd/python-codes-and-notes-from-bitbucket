@@ -11,10 +11,18 @@ score = 0
 lives = 3
 time = 0.5
 
-INIT_VEL = [1, 1]
+#for ship
+SHIP_INIT_VEL = [0, 0]
 ANG_ACCN = 0.2
-ACC_FRAC = INIT_VEL[0]*0.3
-FRIC_FRAC = ACC_FRAC*0.1
+ACC_FRAC = 0.3
+FRIC_FRAC = 0.01
+#for rock
+ROCK_INIT_VEL = [1, 1]
+ROCK_INIT_ANG = 1
+ROCK_ANG_VEL = 0.05
+ROCK_FAC = 0.1
+ROCK_ANG_FAC = 0.01
+
 
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
@@ -164,10 +172,19 @@ class Sprite:
             sound.play()
    
     def draw(self, canvas):
-        canvas.draw_circle(self.pos, self.radius, 1, "Red", "Red")
+        #draw image of rock
+        canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
     
     def update(self):
-        pass        
+        
+        #updating the angular pos
+        self.angle += self.angle_vel
+        
+        #updating the translational motion of rock
+        for i in range(2):
+            self.pos[i] = (self.pos[i] + self.vel[i]) % DIMENSION[i]
+            
+       
 
            
 def draw(canvas):
@@ -191,10 +208,24 @@ def draw(canvas):
     my_ship.update()
     a_rock.update()
     a_missile.update()
-            
+
+#random number generator helper function
+def ran():
+    return random.randrange(-20, 20)
 # timer handler that spawns a rock    
 def rock_spawner():
-    pass
+    global time, a_rock
+    #random position for rock
+    ran_pos = [random.randrange(0, WIDTH), random.randrange(0, HEIGHT)]
+    #random velociy for rock
+    ran_vel = [ROCK_FAC * ran(), ROCK_FAC * ran()]
+    #random angular velocity for rock
+    ran_ang_vel = ROCK_ANG_FAC * ran()
+    
+    a_rock = Sprite(ran_pos, ran_vel, 1, ran_ang_vel, asteroid_image, asteroid_info)
+    
+    time += 1
+    
 
 # key down handlers
 
@@ -218,8 +249,8 @@ def keyup(key):
 frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
 
 # initialize ship and two sprites
-my_ship = Ship([WIDTH / 2, HEIGHT / 2], INIT_VEL, 0, ship_image, ship_info)
-a_rock = Sprite([WIDTH / 3, HEIGHT / 3], [1, 1], 0, 0, asteroid_image, asteroid_info)
+my_ship = Ship([WIDTH / 2, HEIGHT / 2], SHIP_INIT_VEL, 0, ship_image, ship_info)
+a_rock = Sprite([WIDTH / 3, HEIGHT / 3], ROCK_INIT_VEL, ROCK_INIT_ANG, ROCK_ANG_VEL, asteroid_image, asteroid_info)
 a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image, missile_info, missile_sound)
 
 # register handlers
@@ -232,6 +263,3 @@ timer = simplegui.create_timer(1000.0, rock_spawner)
 # get things rolling
 timer.start()
 frame.start()
-
-##Some print statement for testing
-
