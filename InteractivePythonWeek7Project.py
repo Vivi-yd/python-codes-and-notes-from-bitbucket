@@ -151,6 +151,14 @@ class Ship:
         else:
             self.thrust = False
             ship_thrust_sound.rewind()
+            
+            
+    # method for shooting
+    
+    def shoot(self):
+        
+        a_missile.pos[0] = self.pos[0] + self.image_size[0]/2
+        a_missile.pos[1] = self.pos[1] 
          
     
 # Sprite class
@@ -238,6 +246,9 @@ def keydown(key):
         
     elif key == simplegui.KEY_MAP["up"]:
         my_ship.is_thrusting(True)
+        
+    elif key == simplegui.KEY_MAP["space"]:
+        my_ship.shoot()
         
 # key up handlers
 
