@@ -23,6 +23,9 @@ ROCK_ANG_VEL = 0.05
 ROCK_FAC = 0.1
 ROCK_ANG_FAC = 0.01
 
+#for missile
+MISSILE_FAC = 2
+
 
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
@@ -104,11 +107,13 @@ class Ship:
         self.vel = [vel[0],vel[1]]
         self.thrust = False
         self.angle = angle
-        self.angle_vel = 0
+        self.angle_vel = angle
         self.image = image
         self.image_center = info.get_center()
         self.image_size = info.get_size()
         self.radius = info.get_radius()
+        self.forward_vec = angle_to_vector(self.angle)
+        self.resultant_vel = math.sqrt(self.vel[0]**2 + self.vel[1]**2)
         
     def draw(self,canvas):
         #spaceship image when thrusting
@@ -132,14 +137,15 @@ class Ship:
         #updating angle with respect to angular velocity
         self.angle += self.angle_vel
         #calculating forward vector given the ship's angle
-        forward_vec = angle_to_vector(self.angle)
+    
+        self.forward_vec = angle_to_vector(self.angle)
         
-        
+        self.resultant_vel = math.sqrt(self.vel[0]**2 + self.vel[1]**2)
         
         #accelerates ship if thrusting
         if self.thrust:
             for i in range(2):
-                self.vel[i] += ACC_FRAC*forward_vec[i]
+                self.vel[i] += ACC_FRAC*self.forward_vec[i]
     
     #action taken when spaceship is thrusting/not thrusting
     
@@ -156,10 +162,18 @@ class Ship:
     # method for shooting
     
     def shoot(self):
+        global a_missile
+        #missile position  
+        missilePos_x = self.pos[0] + my_ship.image_size[0]/2.0 * math.cos(self.angle)
+        missilePos_y = self.pos[1] + my_ship.image_size[0]/2.0 * math.sin(self.angle)
+        missilePos = [missilePos_x , missilePos_y]
+        #missile velocity
+        missileVel = [0, 0]
+        for i in range(2):
+            missileVel[i] = self.resultant_vel * MISSILE_FAC * self.forward_vec[i]
+        #create a missile object
+        a_missile = Sprite(missilePos, missileVel, 0, 0, missile_image, missile_info, missile_sound)
         
-        a_missile.pos[0] = self.pos[0] + self.image_size[0]/2
-        a_missile.pos[1] = self.pos[1] 
-         
     
 # Sprite class
 class Sprite:
@@ -262,7 +276,7 @@ frame = simplegui.create_frame("Asteroids", WIDTH, HEIGHT)
 # initialize ship and two sprites
 my_ship = Ship([WIDTH / 2, HEIGHT / 2], SHIP_INIT_VEL, 0, ship_image, ship_info)
 a_rock = Sprite([WIDTH / 3, HEIGHT / 3], ROCK_INIT_VEL, ROCK_INIT_ANG, ROCK_ANG_VEL, asteroid_image, asteroid_info)
-a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [-1,1], 0, 0, missile_image, missile_info, missile_sound)
+a_missile = Sprite([2 * WIDTH / 3, 2 * HEIGHT / 3], [0,0], 0, 0, missile_image, missile_info, missile_sound)
 
 # register handlers
 frame.set_draw_handler(draw)
