@@ -11,6 +11,14 @@ score = 0
 lives = 3
 time = 0.5
 
+#constants for user interface
+TEXT_SIZE = 40
+NUMBER_SIZE = 30
+FONT = "sans-serif"
+SIDE_OFF_SET = 100
+TOP_OFF_SET = 50
+FONT_COLOUR = "white"
+
 #for ship
 SHIP_INIT_VEL = [0, 0]
 ANG_ACCN = 0.2
@@ -25,6 +33,8 @@ ROCK_ANG_FAC = 0.01
 
 #for missile
 MISSILE_FAC = 2
+
+
 
 
 class ImageInfo:
@@ -230,7 +240,21 @@ def draw(canvas):
     my_ship.update()
     a_rock.update()
     a_missile.update()
-
+    
+    # draw lives and score for user
+     #getting text width
+    lives_length = frame.get_canvas_textwidth("Lives", TEXT_SIZE, FONT)
+    score_length = frame.get_canvas_textwidth("Score", TEXT_SIZE, FONT)
+    number_length = frame.get_canvas_textwidth(str(lives), NUMBER_SIZE, FONT)
+    #draw the text
+    canvas.draw_text("Lives", [SIDE_OFF_SET, TOP_OFF_SET], TEXT_SIZE, FONT_COLOUR, FONT)
+    canvas.draw_text("Score", [WIDTH - (SIDE_OFF_SET + score_length), TOP_OFF_SET], TEXT_SIZE, FONT_COLOUR, FONT)
+    #draw numbers
+    canvas.draw_text(str(lives), [SIDE_OFF_SET + lives_length/2 - number_length/2,
+                                  TOP_OFF_SET + TEXT_SIZE], NUMBER_SIZE, FONT_COLOUR, FONT)
+    canvas.draw_text(str(score), [WIDTH - SIDE_OFF_SET - score_length/2 - number_length/2, 
+                                  TOP_OFF_SET + TEXT_SIZE], NUMBER_SIZE, FONT_COLOUR, FONT)
+  
 #random number generator helper function
 def ran():
     return random.randrange(-20, 20)
