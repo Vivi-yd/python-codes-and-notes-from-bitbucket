@@ -17,7 +17,7 @@ NUMBER_SIZE = 30
 FONT = "sans-serif"
 SIDE_OFF_SET = 100
 TOP_OFF_SET = 50
-FONT_COLOUR = "white"
+FONT_COLOUR = "aqua"
 
 #for ship
 SHIP_INIT_VEL = [0, 0]
@@ -33,7 +33,7 @@ ROCK_ANG_FAC = 0.01
 
 #for missile
 MISSILE_FAC = 2
-
+MISSILE_SPEED_MINIMUM = 3
 
 
 
@@ -180,7 +180,7 @@ class Ship:
         #missile velocity
         missileVel = [0, 0]
         for i in range(2):
-            missileVel[i] = self.resultant_vel * MISSILE_FAC * self.forward_vec[i]
+            missileVel[i] = (MISSILE_SPEED_MINIMUM + self.resultant_vel) * MISSILE_FAC * self.forward_vec[i]
         #create a missile object
         a_missile = Sprite(missilePos, missileVel, 0, 0, missile_image, missile_info, missile_sound)
         
@@ -312,3 +312,6 @@ timer = simplegui.create_timer(1000.0, rock_spawner)
 # get things rolling
 timer.start()
 frame.start()
+
+
+
