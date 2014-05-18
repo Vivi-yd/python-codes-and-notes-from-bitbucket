@@ -404,6 +404,13 @@ Some programming tips:
 - Avoid using magic constants (values that has no name or reasons to exist), name variables and constants, also using arithmatic
   computation for dependent values of those constants. 
    
+================================================================================================================================
+
+Week_8(Last week):
+
+1. Sets 
+   - An UNordered collections of data with NO duplications. Duplication is not allowed in set.
+   - Syntax to create a set: set(['a', 'b', 'c']).
 	
 	
  
