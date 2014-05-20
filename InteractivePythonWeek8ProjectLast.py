@@ -38,8 +38,8 @@ MISSILE_SPEED_MINIMUM = 3
 
 #for rock in project 2
 rock_group = set([])
-
-
+#for missiles in proj 2
+missile_group = set([])
 
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
@@ -137,6 +137,7 @@ def group_collide(sets, sprite):
 
 # Ship class
 class Ship:
+    
     def __init__(self, pos, vel, angle, image, info):
         self.pos = [pos[0],pos[1]]
         self.vel = [vel[0],vel[1]]
@@ -203,7 +204,7 @@ class Ship:
     # method for shooting
     
     def shoot(self):
-        global a_missile
+        global missile_group
         #missile position  
         missilePos_x = self.pos[0] + my_ship.image_size[0]/2.0 * math.cos(self.angle)
         missilePos_y = self.pos[1] + my_ship.image_size[0]/2.0 * math.sin(self.angle)
@@ -213,8 +214,8 @@ class Ship:
         for i in range(2):
             missileVel[i] = (MISSILE_SPEED_MINIMUM + self.resultant_vel) * MISSILE_FAC * self.forward_vec[i]
         #create a missile object
-        a_missile = Sprite(missilePos, missileVel, 0, 0, missile_image, missile_info, missile_sound)
-        
+        missile = Sprite(missilePos, missileVel, 0, 0, missile_image, missile_info, missile_sound)
+        missile_group.add(missile)
     
 # Sprite class
 class Sprite:
@@ -281,7 +282,8 @@ def draw(canvas):
     #drawing each rock to the canvas
     process_sprite_group(rock_group, canvas)
     
-    #a_missile.draw(canvas)
+    #drawing each missile to the canvas
+    process_sprite_group(missile_group, canvas)
     
     # update ship and sprites
     my_ship.update()
