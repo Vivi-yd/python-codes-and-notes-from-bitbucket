@@ -253,6 +253,11 @@ class Sprite:
         #updating the translational motion of rock
         for i in range(2):
             self.pos[i] = (self.pos[i] + self.vel[i]) % DIMENSION[i]
+            
+        if age >= self.lifespan:
+            return True
+        else:
+            return False
         
     #method for colliding object
     def collide(self, other_object):
@@ -262,6 +267,7 @@ class Sprite:
             return True
         else:
             return False
+        
 
            
 def draw(canvas):
