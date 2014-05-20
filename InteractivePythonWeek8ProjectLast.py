@@ -121,9 +121,15 @@ def ran():
 
 #process the sets of item
 def process_sprite_group(sets, canvas):
-    for item in sets:
-        item.draw(canvas)
-        item.update()
+    
+    copy_set = set(sets)
+    for item in copy_set:
+        if item.update():
+            sets.discard(item)
+            
+    for objs in sets:
+        objs.draw(canvas)
+        
 
 #remove item in sets that got collided
 def group_collide(sets, sprite):
@@ -249,12 +255,13 @@ class Sprite:
         
         #updating the angular pos
         self.angle += self.angle_vel
+        self.age += 1
         
         #updating the translational motion of rock
         for i in range(2):
             self.pos[i] = (self.pos[i] + self.vel[i]) % DIMENSION[i]
             
-        if age >= self.lifespan:
+        if self.age >= self.lifespan:
             return True
         else:
             return False
