@@ -206,6 +206,12 @@ class Sprite:
         if sound:
             sound.rewind()
             sound.play()
+    
+    def get_pos(self):
+        return self.pos
+    
+    def get_rad(self):
+        return self.radius
    
     def draw(self, canvas):
         #draw image of rock
@@ -219,8 +225,15 @@ class Sprite:
         #updating the translational motion of rock
         for i in range(2):
             self.pos[i] = (self.pos[i] + self.vel[i]) % DIMENSION[i]
-            
-       
+        
+    #method for colliding object
+    def collide(self, other_object):
+        
+        #check if the objects are colliding
+        if dist(self.get_pos, other.get_pos) < self.get_rad + other_object.get_rad:
+            return True
+        else:
+            return False
 
            
 def draw(canvas):
@@ -237,8 +250,10 @@ def draw(canvas):
 
     # draw ship and sprites
     my_ship.draw(canvas)
-    #a_rock.draw(canvas)
+    
+    #drawing each rock to the canvas
     process_sprite_group(rock_group, canvas)
+    
     #a_missile.draw(canvas)
     
     # update ship and sprites
@@ -283,19 +298,31 @@ def rock_spawner():
     #random angular velocity for rock
     ran_ang_vel = ROCK_ANG_FAC * ran()
     
+    #limiting number of rocks to twelve
     if len(rock_group) < 12:	
         #creating rock
         rock = Sprite(ran_pos, ran_vel, 1, ran_ang_vel, asteroid_image, asteroid_info)
         rock_group.add(rock)
     
     time += 1
-
+#process the sets of item
 def process_sprite_group(sets, canvas):
     for item in sets:
         item.draw(canvas)
         item.update()
-    
 
+#remove item in sets that got collided
+def group_collide(sets, sprite):
+    collision = False
+    set_copy = set([sets])
+    for item in set_copy:
+        if collide(sets,sprite):
+            sets.remove(item)
+            collision = True
+    return collision
+
+
+    
 # key down handlers
 
 def keydown(key):
