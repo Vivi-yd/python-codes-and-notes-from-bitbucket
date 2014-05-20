@@ -113,6 +113,27 @@ def angle_to_vector(ang):
 def dist(p,q):
     return math.sqrt((p[0] - q[0]) ** 2+(p[1] - q[1]) ** 2)
 
+# some more helper functions
+
+#random number generator helper function
+def ran():
+    return random.randrange(-20, 20)
+
+#process the sets of item
+def process_sprite_group(sets, canvas):
+    for item in sets:
+        item.draw(canvas)
+        item.update()
+
+#remove item in sets that got collided
+def group_collide(sets, sprite):
+    collision = False
+    set_copy = set([sets])
+    for item in set_copy:
+        if collide(sets,sprite):
+            sets.remove(item)
+            collision = True
+    return collision        
 
 # Ship class
 class Ship:
@@ -285,9 +306,6 @@ def draw(canvas):
                           splash_info.get_size())
 
   
-#random number generator helper function
-def ran():
-    return random.randrange(-20, 20)
 # timer handler that spawns a rock    
 def rock_spawner():
     global time, rock_group
@@ -305,23 +323,7 @@ def rock_spawner():
         rock_group.add(rock)
     
     time += 1
-#process the sets of item
-def process_sprite_group(sets, canvas):
-    for item in sets:
-        item.draw(canvas)
-        item.update()
-
-#remove item in sets that got collided
-def group_collide(sets, sprite):
-    collision = False
-    set_copy = set([sets])
-    for item in set_copy:
-        if collide(sets,sprite):
-            sets.remove(item)
-            collision = True
-    return collision
-
-
+    
     
 # key down handlers
 
