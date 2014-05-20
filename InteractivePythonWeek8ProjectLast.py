@@ -128,9 +128,9 @@ def process_sprite_group(sets, canvas):
 #remove item in sets that got collided
 def group_collide(sets, sprite):
     collision = False
-    set_copy = set([sets])
+    set_copy = set(sets)
     for item in set_copy:
-        if collide(sets,sprite):
+        if item.collide(sprite):
             sets.remove(item)
             collision = True
     return collision        
@@ -149,6 +149,12 @@ class Ship:
         self.radius = info.get_radius()
         self.forward_vec = angle_to_vector(self.angle)
         self.resultant_vel = math.sqrt(self.vel[0]**2 + self.vel[1]**2)
+        
+    def get_pos(self):
+        return self.pos
+    
+    def get_rad(self):
+        return self.radius
         
     def draw(self,canvas):
         #spaceship image when thrusting
@@ -251,14 +257,14 @@ class Sprite:
     def collide(self, other_object):
         
         #check if the objects are colliding
-        if dist(self.get_pos, other.get_pos) < self.get_rad + other_object.get_rad:
+        if dist(self.get_pos(), other_object.get_pos()) < self.get_rad() + other_object.get_rad():
             return True
         else:
             return False
 
            
 def draw(canvas):
-    global time
+    global time, lives
     
     # animiate background
     time += 1
@@ -304,6 +310,10 @@ def draw(canvas):
         canvas.draw_image(splash_image, splash_info.get_center(), 
                           splash_info.get_size(), [WIDTH / 2, HEIGHT / 2], 
                           splash_info.get_size())
+    
+    #decrease live if rock-ship collide
+    if group_collide(rock_group, my_ship):
+        lives -= 1
 
   
 # timer handler that spawns a rock    
