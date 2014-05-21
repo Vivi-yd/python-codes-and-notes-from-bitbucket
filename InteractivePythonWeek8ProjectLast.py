@@ -269,14 +269,12 @@ class Sprite:
     
     def get_rad(self):
         return self.radius
-    
-    def get_age(self):
-        return self.age
+        
    
     def draw(self, canvas):
-        
+        #determine which tile should be drawn currently
         current_image_index = (self.age % 24)//1
-        #print current_image_index
+        #determine the center of that tile
         current_center = [(self.image_center[0] + current_image_index*self.image_size[0]), self.image_center[1]]
         #draw animation if explosion occurs
         if self.animated:
