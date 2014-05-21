@@ -41,6 +41,8 @@ rock_group = set([])
 #for missiles in proj 2
 missile_group = set([])
 num_of_collision = 0
+# factor of ship and spawning rock
+MIN_DIS_FAC = 1.2
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
         self.center = center
@@ -354,16 +356,17 @@ def rock_spawner():
     #random position for rock
     ran_pos = [random.randrange(0, WIDTH), random.randrange(0, HEIGHT)]
     #random velociy for rock
-    ran_vel = [ROCK_FAC * ran(), ROCK_FAC * ran()]
+    ran_vel = [ROCK_FAC * ran()*(score), ROCK_FAC * ran()*(score)]
     #random angular velocity for rock
     ran_ang_vel = ROCK_ANG_FAC * ran()
     
     #limiting number of rocks to twelve
     if started:
-        if len(rock_group) < 12 and dist(my_ship.pos, ran_pos) > 5:	
+            
         #creating rock
             rock = Sprite(ran_pos, ran_vel, 1, ran_ang_vel, asteroid_image, asteroid_info)
-            rock_group.add(rock)
+            if len(rock_group) < 12 and dist(my_ship.pos, ran_pos) > MIN_DIS_FAC *(my_ship.get_rad() + rock.get_rad()):
+                rock_group.add(rock)
     
     time += 1
     
