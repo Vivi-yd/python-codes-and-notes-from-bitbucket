@@ -40,7 +40,7 @@ MISSILE_SPEED_MINIMUM = 3
 rock_group = set([])
 #for missiles in proj 2
 missile_group = set([])
-
+num_of_collision = 0
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
         self.center = center
@@ -144,7 +144,7 @@ def group_collide(sets, sprite):
 #remove rocks that got collided with missiles
 
 def group_group_collide(set1, set2):
-    num_of_collision = 0
+    global num_of_collision
     set1_copy = set(set1)
     for item in set1_copy:
         if group_collide(set2, item):
@@ -290,7 +290,7 @@ class Sprite:
 
            
 def draw(canvas):
-    global time, lives
+    global time, lives, score
     
     # animiate background
     time += 1
@@ -312,8 +312,7 @@ def draw(canvas):
     
     # update ship and sprites
     my_ship.update()
-    #a_rock.update()
-    #a_missile.update()
+    
     
     
     # draw lives and score for user
@@ -341,8 +340,9 @@ def draw(canvas):
     #decrease live if rock-ship collide
     if group_collide(rock_group, my_ship):
         lives -= 1
-        
+    #increment score when missiles and rocks collide    
     group_group_collide(rock_group, missile_group)
+    score = num_of_collision
 
   
 # timer handler that spawns a rock    
