@@ -131,7 +131,7 @@ def process_sprite_group(sets, canvas):
         objs.draw(canvas)
         
 
-#remove item in sets that got collided
+#remove rocks that got collided with ship
 def group_collide(sets, sprite):
     collision = False
     set_copy = set(sets)
@@ -140,6 +140,18 @@ def group_collide(sets, sprite):
             sets.remove(item)
             collision = True
     return collision        
+
+#remove rocks that got collided with missiles
+
+def group_group_collide(set1, set2):
+    num_of_collision = 0
+    set1_copy = set(set1)
+    for item in set1_copy:
+        if group_collide(set2, item):
+            set1.remove(item)
+            num_of_collision += 1
+    return num_of_collision
+                
 
 # Ship class
 class Ship:
@@ -329,6 +341,8 @@ def draw(canvas):
     #decrease live if rock-ship collide
     if group_collide(rock_group, my_ship):
         lives -= 1
+        
+    group_group_collide(rock_group, missile_group)
 
   
 # timer handler that spawns a rock    
