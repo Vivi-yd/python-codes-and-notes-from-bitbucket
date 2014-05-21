@@ -404,6 +404,7 @@ def click(pos):
         lives = 3
         num_of_collision = 0
         started = True
+    soundtrack.play()
 
     
 # initialize frame
