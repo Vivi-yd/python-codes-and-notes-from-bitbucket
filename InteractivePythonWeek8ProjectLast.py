@@ -356,7 +356,7 @@ def rock_spawner():
     #random position for rock
     ran_pos = [random.randrange(0, WIDTH), random.randrange(0, HEIGHT)]
     #random velociy for rock
-    ran_vel = [ROCK_FAC * ran()*(score), ROCK_FAC * ran()*(score)]
+    ran_vel = [ROCK_FAC * ran()*(score + ROCK_INIT_VEL[0]), ROCK_FAC * ran()*(score + ROCK_INIT_VEL[0])]
     #random angular velocity for rock
     ran_ang_vel = ROCK_ANG_FAC * ran()
     
