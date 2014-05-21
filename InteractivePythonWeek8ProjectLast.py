@@ -43,6 +43,10 @@ missile_group = set([])
 num_of_collision = 0
 # factor of ship and spawning rock
 MIN_DIS_FAC = 1.2
+
+# for explosion
+explosion_group = set([])
+
 class ImageInfo:
     def __init__(self, center, size, radius = 0, lifespan = None, animated = False):
         self.center = center
@@ -135,12 +139,17 @@ def process_sprite_group(sets, canvas):
 
 #remove rocks that got collided with ship
 def group_collide(sets, sprite):
+    global explosion_group
+    
     collision = False
     set_copy = set(sets)
     for item in set_copy:
         if item.collide(sprite):
             sets.remove(item)
+            explosion = Sprite(sprite.pos, sprite.vel, sprite.angle, sprite.angle_vel, explosion_image, explosion_info)
+            explosion_group.add(explosion)
             collision = True
+            explosion_sound.play()
     return collision        
 
 #remove rocks that got collided with missiles
@@ -262,8 +271,15 @@ class Sprite:
         return self.radius
    
     def draw(self, canvas):
-        #draw image of rock
-        canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
+        
+        current_image_index = (self.age % 24)//1
+        current_center = [(self.image_center[0] + current_image_index)*self.image_size[0], self.image_center[1]]
+        #draw animation if explosion occurs
+        if self.animated:
+            canvas.draw_image(self.image, current_center, self.image_size, self.pos, self.image_size, self.angle)
+        else:
+            #draw image of rock
+            canvas.draw_image(self.image, self.image_center, self.image_size, self.pos, self.image_size, self.angle)
     
     def update(self):
         
@@ -312,6 +328,9 @@ def draw(canvas):
     
     #drawing each missile to the canvas
     process_sprite_group(missile_group, canvas)
+    
+    #drawing each explosion
+    process_sprite_group(explosion_group, canvas)
     
     # update ship and sprites
     my_ship.update()
