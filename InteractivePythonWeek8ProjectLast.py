@@ -290,7 +290,7 @@ class Sprite:
 
            
 def draw(canvas):
-    global time, lives, score
+    global time, lives, score, started
     
     # animiate background
     time += 1
@@ -305,7 +305,8 @@ def draw(canvas):
     my_ship.draw(canvas)
     
     #drawing each rock to the canvas
-    process_sprite_group(rock_group, canvas)
+    if started:
+        process_sprite_group(rock_group, canvas)
     
     #drawing each missile to the canvas
     process_sprite_group(missile_group, canvas)
@@ -332,17 +333,19 @@ def draw(canvas):
                                   TOP_OFF_SET + TEXT_SIZE], NUMBER_SIZE, FONT_COLOUR, FONT)
     
     # draw splash screen if not started
-    if not started:
+    if not started or lives < 1:
         canvas.draw_image(splash_image, splash_info.get_center(), 
                           splash_info.get_size(), [WIDTH / 2, HEIGHT / 2], 
                           splash_info.get_size())
+        started = False
     
     #decrease live if rock-ship collide
-    if group_collide(rock_group, my_ship):
+    if group_collide(rock_group, my_ship)and started:
         lives -= 1
     #increment score when missiles and rocks collide    
     group_group_collide(rock_group, missile_group)
-    score = num_of_collision
+    if started:
+        score = num_of_collision
 
   
 # timer handler that spawns a rock    
@@ -387,12 +390,15 @@ def keyup(key):
     
 # mouseclick handlers that reset UI and conditions whether splash image is drawn
 def click(pos):
-    global started
+    global started, lives, num_of_collision
     center = [WIDTH / 2, HEIGHT / 2]
     size = splash_info.get_size()
     inwidth = (center[0] - size[0] / 2) < pos[0] < (center[0] + size[0] / 2)
     inheight = (center[1] - size[1] / 2) < pos[1] < (center[1] + size[1] / 2)
     if (not started) and inwidth and inheight:
+        
+        lives = 3
+        num_of_collision = 0
         started = True
 
     
