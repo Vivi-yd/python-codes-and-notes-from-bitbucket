@@ -269,11 +269,15 @@ class Sprite:
     
     def get_rad(self):
         return self.radius
+    
+    def get_age(self):
+        return self.age
    
     def draw(self, canvas):
         
         current_image_index = (self.age % 24)//1
-        current_center = [(self.image_center[0] + current_image_index)*self.image_size[0], self.image_center[1]]
+        #print current_image_index
+        current_center = [(self.image_center[0] + current_image_index*self.image_size[0]), self.image_center[1]]
         #draw animation if explosion occurs
         if self.animated:
             canvas.draw_image(self.image, current_center, self.image_size, self.pos, self.image_size, self.angle)
