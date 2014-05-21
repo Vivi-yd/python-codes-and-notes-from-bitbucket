@@ -359,10 +359,11 @@ def rock_spawner():
     ran_ang_vel = ROCK_ANG_FAC * ran()
     
     #limiting number of rocks to twelve
-    if len(rock_group) < 12:	
+    if started:
+        if len(rock_group) < 12 and dist(my_ship.pos, ran_pos) > 5:	
         #creating rock
-        rock = Sprite(ran_pos, ran_vel, 1, ran_ang_vel, asteroid_image, asteroid_info)
-        rock_group.add(rock)
+            rock = Sprite(ran_pos, ran_vel, 1, ran_ang_vel, asteroid_image, asteroid_info)
+            rock_group.add(rock)
     
     time += 1
     
@@ -390,13 +391,13 @@ def keyup(key):
     
 # mouseclick handlers that reset UI and conditions whether splash image is drawn
 def click(pos):
-    global started, lives, num_of_collision
+    global started, lives, num_of_collision, rock_group
     center = [WIDTH / 2, HEIGHT / 2]
     size = splash_info.get_size()
     inwidth = (center[0] - size[0] / 2) < pos[0] < (center[0] + size[0] / 2)
     inheight = (center[1] - size[1] / 2) < pos[1] < (center[1] + size[1] / 2)
     if (not started) and inwidth and inheight:
-        
+        rock_group = set([])
         lives = 3
         num_of_collision = 0
         started = True
