@@ -1,4 +1,3 @@
-
 class Solitaire_Mancala:
     
     """ a class for the game Solitaire Mancala """
@@ -13,13 +12,15 @@ class Solitaire_Mancala:
         
         """set the board with the initialized configuration """
         
-        self.configuration = configuration
+        self.configuration = list(configuration)
         
     def __str__(self):
         
         """ reverses the configuration and covert to string """
         
-        return str(self.configuration[::-1])
+        lst = list(self.configuration)
+        lst.reverse()
+        return str(lst)
         
     def get_num_seeds(self, house_num):
         
@@ -39,11 +40,11 @@ class Solitaire_Mancala:
         """ apply the move if it's legal """
         
         if self.is_legal_move(house_num):
-            for i in self.configuration[:house_num]:
-                self.configuration[house_num] = 0
+            
+            for i in range(house_num):
                 self.configuration[i] += 1
-                
-        return self.configuration
+            self.configuration[house_num] = 0   
+        
     
     def choose_move(self):
         
