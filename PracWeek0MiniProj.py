@@ -81,3 +81,38 @@ import poc_mancala_testsuite
 poc_mancala_testsuite.run_test(Solitaire_Mancala)
 import poc_mancala_gui
 poc_mancala_gui.run_gui(Solitaire_Mancala())
+
+
+==============================================================================
+
+
+""" Test codes for Solitaire Mancala """
+
+import poc_simpletest
+
+def run_test(class_to_be_tested):
+    
+    # create a TestSuite object
+    suite = poc_simpletest.TestSuite()
+    
+    # create a object from the class to be tested
+    game = class_to_be_tested()
+    
+    #test __str__ method
+    
+    first_config = [0, 1, 1, 3, 0, 0, 0]
+    game.set_board(first_config)
+    suite.run_test(str(game), str([0, 0, 0, 3, 1, 1, 0]), "test 1: __str__")
+    
+    #test get_num_seeds method
+    suite.run_test(game.get_num_seeds(2), first_config(2), "test 2: get_num_seeds")
+    
+    
+    #test is_legal_move method
+    suite.run_test(game.is_legal_move(0), False, "test 3.1: is_legal move")
+    suite.run_test(game.is_legal_move(1), True, "test 3.2: is_legal_move")
+    suite.run_test(game.is_legal_move(3), True, "test 3.3: is_legal_move")
+    
+    
+    #test apply_move method
+    game.apply_move(1)
