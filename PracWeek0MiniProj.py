@@ -50,13 +50,10 @@ class Solitaire_Mancala:
         
         """ return the legal move that is closest to the store """
         
-        legal_move_index = []
-        for i in range(len(self.configuration)):
+        for i in range(1, len(self.configuration)):
             if self.is_legal_move(i):
-                legal_move_index.append(i)
-                return min(legal_move_index)
-            
-            return 0
+                return i
+        return 0
     
     def is_game_won(self):
         
@@ -72,11 +69,12 @@ class Solitaire_Mancala:
         """ giving a list which is a series of legal moves of the whole game """
         
         moves = []
-        for i in range(1, len(self.configuration)):
-            if self.is_legal_move(i):
-                moves.append(i)
-                self.apply_move(i)
-        return moves
+        the_move = self.choose_move()
+        while the_move != 0:
+            self.apply_move(the_move)
+            moves.append(the_move)
+            the_move = self.choose_move()
+        return moves    
     
     
 import poc_mancala_testsuite                
