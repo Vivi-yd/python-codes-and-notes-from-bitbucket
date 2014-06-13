@@ -105,7 +105,7 @@ def run_test(class_to_be_tested):
     suite.run_test(str(game), str([0, 0, 0, 3, 1, 1, 0]), "test 1: __str__")
     
     #test get_num_seeds method
-    suite.run_test(game.get_num_seeds(2), first_config(2), "test 2: get_num_seeds")
+    suite.run_test(game.get_num_seeds(2), first_config[2], "test 2: get_num_seeds")
     
     
     #test is_legal_move method
@@ -116,3 +116,50 @@ def run_test(class_to_be_tested):
     
     #test apply_move method
     game.apply_move(1)
+    suite.run_test(str(game), str([0, 0, 0, 3, 1, 0, 1]), "test 4: apply_move")
+    suite.run_test(first_config, [0, 1, 1, 3, 0, 0, 0], "test 4.1: apply_move; see if there's any change in config")
+    #test apply_move to an illegal 
+    game.apply_move(2)
+    suite.run_test(str(game), str([0, 0, 0, 3, 1, 1, 0]), "test 5: applying illegal move")
+    
+    
+    #test choose_move and applying it
+    game.set_board(first_config)
+    move = game.choose_move()
+    suite.run_test(move, 1, "test 6: testing choose_move")
+    game.apply_move(move)
+    suite.run_test(str(game), str([0, 0, 0, 3, 1, 0, 1]), "test 6.1: applying move as suggested by choose_move")
+    
+    second_config = [0, 0, 5, 0, 0, 2, 0]
+    game.set_board(second_config)
+    move = game.choose_move()
+    suite.run_test(move, 0, "test 6.2: testing choose_move when there are no legal move")
+    
+    
+    #test is_game_won
+    game.set_board(first_config)
+    suite.run_test(game.is_game_won(), False, "test 7.1: test is_game_won when not won")
+    third_config = [1, 0, 0, 0, 0, 0, 0]
+    game.set_board(third_config)
+    suite.run_test(game.is_game_won(), True, "test 7.2: test is_game_won when won")
+    
+    
+    # test plan_moves
+    game.set_board(first_config)
+    moves = game.plan_moves()
+    suite.run_test(moves, [1, 3, 1, 2], "test 8.1: test plan_moves ending with win game")
+    for each_move in moves:
+        game.apply_move(each_move)
+    suite.run_test(str(game), str([0, 0, 0, 0, 0, 0, 4]), "test 8.2: applying move as suggested by plan_moves")    
+    
+    forth_config = [0, 1, 1, 0, 4, 0, 0]
+    game.set_board(forth_config)
+    moves = game.plan_moves()
+    suite.run_test(moves, [1, 4, 1, 2, 1], "test 8.3: test plan_moves ending with lose game")
+    for each_move in moves:
+        game.apply_move(each_move)
+    suite.run_test(str(game), str([0, 0, 0, 1, 0, 0, 5]), "test 8.4: applying move as suggested by plan_move")
+    
+    
+    # reporting test result
+    suite.report_results()
