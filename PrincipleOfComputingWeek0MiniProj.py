@@ -16,27 +16,93 @@ OFFSETS = {UP: (1, 0),
            DOWN: (-1, 0), 
            LEFT: (0, 1), 
            RIGHT: (0, -1)} 
-   
+ 
+#Helper functions for merge():
+    
+def zero_to_right(line):
+    
+    """ Helper function for merge() that put all non-zero term
+    to the left with no space. i.e. zero's to the right"""
+    
+    length = len(line)
+    result = [0] * length
+    idx = 0
+    for num in line:
+        if num != 0:
+            result[idx] = num
+            idx += 1
+    #print result        
+    return result
+            
+### Test    
+zero_to_right([0, 4, 4, 0])
+zero_to_right([0, 0, 2, 0])
+zero_to_right([2, 2, 4, 0])
+zero_to_right([0, 4, 2, 2])
+
+
+def next_occ(seq, idx):
+    """find the index of next value that is the same and to the right of current index """
+    
+    if seq[idx + 1:].count(seq[idx]) > 0:
+         new_idx = seq[idx + 1:].index(seq[idx])
+         return new_idx + idx + 1
+        
+    else:
+        return -9999 #safer :P
+
+    
+    
+###Test         
+print next_occ([4, 0, 4, 0], 1)
+print next_occ([0, 2, 2, 0], 0)
+print next_occ([2, 2, 2, 2], 0)
+print next_occ([8, 0, 3, 2, 4, 0, 3, 0, 0], 2)
+
+
+def check_gap(seq, idx1, idx2):
+    """check if there are any non-zero entries in between idx1 and idx2"""
+    
+    
+    for i in range(idx1 + 1, idx2):
+        if seq[i] != 0:
+            return True
+    
+    return False
+    
+### Test
+print check_gap([4, 0, 4, 0], 0, 2)
+print check_gap([0, 2, 2, 0], 0, 3)
+print check_gap([2, 2, 2, 2], 0, 3)
+print check_gap([8, 0, 3, 2, 4, 0, 3, 0, 0], 2, 6)
+print check_gap([0, 0, 2, 0, 0, 0], 2, 5)
+
+
 def merge(line):
     """
     Helper function that merges a single row or column in 2048
     """
-    length = len(line)
-    merged = [0] * length
-    idx = 0
-    is_merged = False
-    for num in line:
-        if num != 0 and num == merged[idx]:
-            merged[idx] = (num + merged[idx])
-            is_merged = True
-            idx += 1
-        elif num != 0:
-            merged[idx] = num
-            
+    
+    result_list = [0] * len(line)
+    #keep track of indexes which are not to be merged
+    merged = []
+
+    for i in range(len(line)):
+        second_occurence = next_occ(line, i)
+        first_bool = not(check_gap(line, i, second_occurence))
+        second_bool =  not(i in merged)
+        #element will merge if it occurs again there are no non-zeros in between or
+        #it was not created by merge itself
+        if second_occurence != -9999 and first_bool and second_bool:
+            print second_occurence
+            result_list[second_occurence] = 2 * line[i]
+            merged.append(second_occurence)
+        elif second_bool:
+            result_list[i] = line[i]
+
         
-    print merged    
-            
-    return []
+    return zero_to_right(result_list)
+   
 
 class TwentyFortyEight:
     """
@@ -106,10 +172,16 @@ class TwentyFortyEight:
         # replace with your code
         return 0
  
-## test
-merge([0, 4, 4, 0])
-merge([0, 0, 2, 0])
-merge([2, 2, 4, 0])
-merge([0, 4, 2, 2])
+
+
+import user34_K9swOlUgbQ_24
+
+user34_K9swOlUgbQ_24.zero_to_right_test(zero_to_right)
+
+user34_K9swOlUgbQ_24.next_occ_test(next_occ)
+
+user34_K9swOlUgbQ_24.check_gap_test(check_gap)
+
+user34_K9swOlUgbQ_24.merge_test(merge)
     
 #poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
