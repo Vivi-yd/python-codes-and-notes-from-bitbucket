@@ -1,3 +1,4 @@
+
 """ Test code for 2048 by Vivi and her bf """
 
 import poc_simpletest
@@ -85,13 +86,58 @@ def merge_test(merge):
 
 
 
-def run_test(class_to_be_tested):
+def run_test(TwentyFortyEight):
     
-    # create a TestSuite object
     suite = poc_simpletest.TestSuite()
     
     # create a object from the class to be tested
-    game = class_to_be_tested()
-    pass
+    game1 = TwentyFortyEight(4, 4)
+    game2 = TwentyFortyEight(3, 4) 
+    game3 = TwentyFortyEight(5, 4)    
+
+    ##testing initial configurations
+    
+    config1 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]## square grid
+    config2 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]] # columns more than rows
+    config3 = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]] # rows more than columns
+    
+    suite.run_test(str(game1), str(config1), "test 2.0.0: initial confign")
+    suite.run_test(str(game2), str(config2), "test 2.0.1: initial confign")
+    suite.run_test(str(game3), str(config3), "test 2.0.2: initial confign")
+
+    ## testing grid height and width methods 
+    suite.run_test(str(game1.get_grid_height()), str(4), "test 2.1.0: get_grid_height")
+    suite.run_test(str(game2.get_grid_height()), str(3), "test 2.1.1: get_grid_height")
+    suite.run_test(str(game3.get_grid_height()), str(5), "test 2.1.2: get_grid_height")
+
+    suite.run_test(str(game1.get_grid_width()), str(4), "test 2.2.0: get_grid_width")
+    suite.run_test(str(game2.get_grid_width()), str(4), "test 2.2.1: get_grid_width")
+    suite.run_test(str(game1.get_grid_width()), str(4), "test 2.2.2: get_grid_width")
+
+    ##testing set_tile method
+    config4 = [[64, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]##set_tile(0, 0, 64)
+    config5 = [[64, 0, 0, 0], [0, 0, 32, 0], [0, 0, 0, 0], [0, 0, 0, 0]]##set_tile(1, 2, 32)
+    config6 = [[64, 0, 0, 0], [0, 0, 32, 0], [0, 8, 0, 0], [0, 0, 0, 0]]##set_tile(2, 1, 8)
+    config7 = [[64, 0, 0, 0], [0, 0, 32, 0], [0, 8, 0, 0], [0, 0, 0, 2]]##set_tile(3, 3, 2)
+
+    game1.set_tile(0, 0, 64)
+    suite.run_test(str(game1), str(config4), "test 2.3.0: set_tile")
+    game1.set_tile(1, 2, 32)
+    suite.run_test(str(game1), str(config5), "test 2.3.1: set_tile")
+    game1.set_tile(2, 1, 8)
+    suite.run_test(str(game1), str(config6), "test 2.3.2: set_tile")
+    game1.set_tile(3, 3, 2)
+    suite.run_test(str(game1), str(config7), "test 2.3.3: set_tile")
+    
+    ##testing get_tile method
+    suite.run_test(str(game1.get_tile(0, 0)), str(64), "test 2.4.0: get_tile")
+    suite.run_test(str(game1.get_tile(3, 3)), str(2), "test 2.4.1: get_tile")
+    suite.run_test(str(game1.get_tile(1, 1)), str(0), "test 2.4.2: get_tile")
+    suite.run_test(str(game1.get_tile(2, 1)), str(8), "test 2.4.0: get_tile")
+    
+        
+    
+    # report number of tests and failures
+    suite.report_results()
     
     
