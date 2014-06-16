@@ -110,36 +110,39 @@ class TwentyFortyEight:
     """
 
     def __init__(self, grid_height, grid_width):
-        # replace with your code
-        pass
+        """ 
+        initializing grid board 
+        """
+        self._height = grid_height
+        self._width = grid_width
+        """ 
+        initial board with empty cells
+        """
+        self._board_config = [[0] * self._width] * self._height
     
     def reset(self):
         """
         Reset the game so the grid is empty.
         """
-        # replace with your code
-        pass
+        self._board_config = [[0] * self._width] * self._height
     
     def __str__(self):
         """
         Return a string representation of the grid for debugging.
         """
-        # replace with your code
-        pass
+        return str(self._board_config)
 
     def get_grid_height(self):
         """
         Get the height of the board.
         """
-        # replace with your code
-        return 0
+        return self._height
     
     def get_grid_width(self):
         """
         Get the width of the board.
         """
-        # replace with your code
-        return 0
+        return self._width
                             
     def move(self, direction):
         """
@@ -161,16 +164,21 @@ class TwentyFortyEight:
     def set_tile(self, row, col, value):
         """
         Set the tile at position row, col to have the given value.
-        """        
-        # replace with your code
-        pass
+        """
+        # make a copy of the corresponding row
+        chosen_row = self._board_config[row][:]
+        #mutate the corresponding col in that copied row
+        chosen_row[col] = value
+        #set the original row to be the mutated row
+        self._board_config[row] = chosen_row
+        
+        
 
     def get_tile(self, row, col):
         """
         Return the value of the tile at position row, col.
         """        
-        # replace with your code
-        return 0
+        return self._board_config[row][col]
  
 
 
@@ -183,5 +191,10 @@ user34_K9swOlUgbQ_24.next_occ_test(next_occ)
 user34_K9swOlUgbQ_24.check_gap_test(check_gap)
 
 user34_K9swOlUgbQ_24.merge_test(merge)
+
+############Test Class########
+
+import user34_K9swOlUgbQ_28
+user34_K9swOlUgbQ_28.run_test(TwentyFortyEight)
     
 #poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
