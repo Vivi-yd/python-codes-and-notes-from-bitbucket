@@ -1,7 +1,7 @@
 """
 Cookie Clicker Simulator by vivi
 """
-
+from math import ceil
 import simpleplot
 
 # Used to increase the timeout, if necessary
@@ -26,15 +26,17 @@ class ClickerState:
         self._current_cookies = 0.0
         self._current_time = 0.0
         #rate of cookies production, namely cookies per sec.
-        self._current_cps
+        self._current_cps = 1.0
         #history to keep track of record.
         self._history = [(0.0, None, 0.0, 0.0)]
+        
+        
         
     def __str__(self):
         """
         Return human readable state
         """
-        return "total cookies so far: ", self._tot_cookies, "current # of cookies: ", self.get_cookies(), "cps: ", self.get_cps(), "at time: ", self.get_time()
+        return "total cookies so far: " + str(self._tot_cookies) + " current # of cookies: " + str(self.get_cookies()) + " cps: " + str(self.get_cps()) + " at time: " + str(self.get_time())
         
         
     def get_cookies(self):
@@ -74,7 +76,8 @@ class ClickerState:
 
         Should return a float with no fractional part
         """
-        return 0.0
+        time_needed = ceil((cookies - self.get_cookies())/self.get_cps())
+        return time_needed
     
     def wait(self, time):
         """
@@ -82,7 +85,14 @@ class ClickerState:
 
         Should do nothing if time <= 0
         """
-        pass
+        if time > 0:
+            self._current_time += time
+            #calculate cookies produced during time waited.
+            cookies_made = time * self._current_cps
+            self._tot_cookies += cookies_made
+            self._current_cookies += cookies_made
+            
+            
     
     def buy_item(self, item_name, cost, additional_cps):
         """
@@ -90,7 +100,13 @@ class ClickerState:
 
         Should do nothing if you cannot afford the item
         """
-        pass
+        # update states accordingly
+        if self._current_cookies >= cost:
+            self._current_cookies -= cost
+            self._current_cps += additional_cps
+            self._history.append((self._current_time, item_name, cost, self._tot_cookies))
+        
+        
    
     
 def simulate_clicker(build_info, duration, strategy):
@@ -160,5 +176,7 @@ def run():
     # run_strategy("Expensive", SIM_TIME, strategy_expensive)
     # run_strategy("Best", SIM_TIME, strategy_best)
     
-run()
+#run()
     
+import user34_4HU08WPRsC_3
+user34_4HU08WPRsC_3.test_class(ClickerState)
