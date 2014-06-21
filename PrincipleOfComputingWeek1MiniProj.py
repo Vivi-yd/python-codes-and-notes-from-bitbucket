@@ -12,7 +12,7 @@ import poc_clicker_provided as provided
 
 # Constants
 SIM_TIME = 10000000000.0
-
+#SIM_TIME = 1000.0
 class ClickerState:
     """
     Simple class to keep track of the game state.
@@ -114,11 +114,51 @@ def simulate_clicker(build_info, duration, strategy):
     Function to run a Cookie Clicker game for the given
     duration with the given strategy.  Returns a ClickerState
     object corresponding to game.
-    """
-
-    # Replace with your code
-    return ClickerState()
-
+    """   
+    #create a ClickerState() object
+    state = ClickerState()
+    while True:
+        
+        #bringing game states into this function
+        
+        cookies = state.get_cookies()
+        cps = state.get_cps()
+        time_left = duration - state.get_time()
+    
+        # break loop if current time exceed the simulation duration.
+        if state.get_time() > duration:
+            break
+            
+        # next item to purchase as per strategy
+        nxt_item = strategy(cookies, cps, duration, build_info)
+        
+        # check if there is anything to buy next according to strategy chosen
+        # if none break.
+        if nxt_item == None:
+            break
+        # cost of that next item to purchase
+        nxt_item_cost = build_info.get_cost(nxt_item)
+        nxt_item_cps_add = build_info.get_cps(nxt_item)
+        
+        # time needed until next purchase is affordable
+        wait_time = state.time_until(nxt_item_cost)
+        
+        # check time needed to be able to make next purchase as per strategy
+        # if time needed exceeds duration, stop checking for purchase
+        if wait_time > time_left:
+            break
+                
+        # wait till that time if not exceeded (info auto update)
+        
+        state.wait(wait_time)
+        # buy item when affordable (info auto update) 
+        state.buy_item(nxt_item, nxt_item_cost, nxt_item_cps_add)
+        #upate the buildInfo
+        build_info.update_item(nxt_item)
+            
+    state.wait(time_left)
+    
+    return state
 
 def strategy_cursor(cookies, cps, time_left, build_info):
     """
@@ -176,7 +216,7 @@ def run():
     # run_strategy("Expensive", SIM_TIME, strategy_expensive)
     # run_strategy("Best", SIM_TIME, strategy_best)
     
-#run()
+run()
     
-import user34_4HU08WPRsC_3
-user34_4HU08WPRsC_3.test_class(ClickerState)
+import user34_9rUeW6UkrB_2
+user34_9rUeW6UkrB_2.test_class(ClickerState)
