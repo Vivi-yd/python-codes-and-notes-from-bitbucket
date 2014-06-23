@@ -10,6 +10,21 @@ codeskulptor.set_timeout(20)
 
 import poc_clicker_provided as provided
 
+def keywithmaxval(dic):
+     """ a) create a list of the dict's keys and values; 
+         b) return the key with the max value"""  
+     val = list(dic.values())
+     key = list(dic.keys())
+     return key[val.index(max(val))]
+
+def keywithminval(dic):
+     """ a) create a list of the dict's keys and values; 
+         b) return the key with the min value"""  
+     val = list(dic.values())
+     key =list(dic.keys())
+     return key[val.index(min(val))]
+
+
 # Constants
 SIM_TIME = 10000000000.0
 #SIM_TIME = 1000.0
@@ -77,6 +92,8 @@ class ClickerState:
         Should return a float with no fractional part
         """
         time_needed = ceil((cookies - self.get_cookies())/self.get_cps())
+        if time_needed < 0:
+            return 0.0
         return time_needed
     
     def wait(self, time):
@@ -114,51 +131,53 @@ def simulate_clicker(build_info, duration, strategy):
     Function to run a Cookie Clicker game for the given
     duration with the given strategy.  Returns a ClickerState
     object corresponding to game.
-    """   
-    #create a ClickerState() object
-    state = ClickerState()
+    """
+   
+    #create a new ClickerState object
+    clicker = ClickerState()
+    
+    #function should loop until the time in the ClickerState object reaches the duration
     while True:
+        #get the game states for this instance
+        cookies = clicker.get_cookies()
+        current_time = clicker.get_time()
+        time_left = duration - current_time
+        current_cps = clicker.get_cps()
         
-        #bringing game states into this function
-        
-        cookies = state.get_cookies()
-        cps = state.get_cps()
-        time_left = duration - state.get_time()
-    
         # break loop if current time exceed the simulation duration.
-        if state.get_time() > duration:
+        if current_time > duration:
             break
             
-        # next item to purchase as per strategy
-        nxt_item = strategy(cookies, cps, duration, build_info)
-        
-        # check if there is anything to buy next according to strategy chosen
-        # if none break.
-        if nxt_item == None:
+        ## next item to purchase as per strategy
+        next_item = strategy(cookies, current_cps, time_left, build_info)
+        ## break loop if no further purchase is to be made according to strategy.
+        if next_item == None:
             break
-        # cost of that next item to purchase
-        nxt_item_cost = build_info.get_cost(nxt_item)
-        nxt_item_cps_add = build_info.get_cps(nxt_item)
         
-        # time needed until next purchase is affordable
-        wait_time = state.time_until(nxt_item_cost)
+        # cost and additional cps of next purchase.
+        cost_next_item = build_info.get_cost(next_item)
+        cps_next_item = build_info.get_cps(next_item)
+        # time needed in order to afford next purchase.
+        time_needed = clicker.time_until(cost_next_item)
         
-        # check time needed to be able to make next purchase as per strategy
-        # if time needed exceeds duration, stop checking for purchase
-        if wait_time > time_left:
+        # break loop if time needed for next purchase exceed the time left for simulation.
+        if time_needed > time_left:
             break
-                
-        # wait till that time if not exceeded (info auto update)
-        
-        state.wait(wait_time)
-        # buy item when affordable (info auto update) 
-        state.buy_item(nxt_item, nxt_item_cost, nxt_item_cps_add)
-        #upate the buildInfo
-        build_info.update_item(nxt_item)
             
-    state.wait(time_left)
+        #wait until that time if not exceed.
+        clicker.wait(time_needed)
+        #buy the item
+        clicker.buy_item(next_item, cost_next_item, cps_next_item)
+        #update the build information
+        build_info.update_item(next_item)
     
-    return state
+    # wait till the remaining time is over.
+    clicker.wait(time_left)
+    
+
+    # return game state.
+    return clicker
+
 
 def strategy_cursor(cookies, cps, time_left, build_info):
     """
@@ -181,13 +200,59 @@ def strategy_none(cookies, cps, time_left, build_info):
     return None
 
 def strategy_cheap(cookies, cps, time_left, build_info):
-    return None
+    """
+    Always return cheapest available item
+    """
+    items_dict = {}
+    for item in build_info.build_items():
+        item_price = build_info.get_cost(item)
+        items_dict[item] = item_price
+    cheapest_item = keywithminval(items_dict)
+    if cookies + cps * time_left >= build_info.get_cost(cheapest_item):
+        #print cheapest_item
+        return cheapest_item
+    else:
+        return None
 
 def strategy_expensive(cookies, cps, time_left, build_info):
-    return None
+    """
+    Always return most expensive available item in the remaining time
+    """
+    #get a dict of item - cost if item price
+    items_dict = {}
+    for item in build_info.build_items():
+        item_price = build_info.get_cost(item)
+        if item_price <= cookies + cps * time_left:
+            items_dict[item] = item_price
+    #return appropriate key 
+    if len(items_dict) == 0:
+        return None
+    else:
+        #print keywithmaxval(items_dict)
+        return keywithmaxval(items_dict) 
+
+    
 
 def strategy_best(cookies, cps, time_left, build_info):
-    return None
+    """ best strategy that that I can think of """
+    
+    # create an item dict to be select for purchasing
+    selected_item = {}
+    
+    # get price/cps of each item in the game
+    for item in build_info.build_items():
+        item_price = build_info.get_cost(item)
+        item_cps = build_info.get_cps(item)
+        fraction = item_cps * time_left/item_price
+        selected_item[item] = fraction
+            
+    if len(selected_item) == 0:
+        return None
+            
+    # make the most expensive purchase in affordable_items 
+    else:
+        return keywithmaxval(selected_item)
+    
         
 def run_strategy(strategy_name, time, strategy):
     """
@@ -212,11 +277,11 @@ def run():
     run_strategy("Cursor", SIM_TIME, strategy_cursor)
 
     # Add calls to run_strategy to run additional strategies
-    # run_strategy("Cheap", SIM_TIME, strategy_cheap)
-    # run_strategy("Expensive", SIM_TIME, strategy_expensive)
-    # run_strategy("Best", SIM_TIME, strategy_best)
+    run_strategy("Cheap", SIM_TIME, strategy_cheap)
+    run_strategy("Expensive", SIM_TIME, strategy_expensive)
+    run_strategy("Best", SIM_TIME, strategy_best)
     
 run()
     
-import user34_9rUeW6UkrB_2
-user34_9rUeW6UkrB_2.test_class(ClickerState)
+#import user34_9rUeW6UkrB_2
+#user34_9rUeW6UkrB_2.test_class(ClickerState)
