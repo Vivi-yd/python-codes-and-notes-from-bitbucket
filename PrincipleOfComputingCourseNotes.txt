@@ -47,10 +47,10 @@ This list doesn't have to be particularly detailed, but should be a starting poi
 
 <week_4>
 
-Generators:
-Is an "Iterator", where a sequences of value is generated, just like a List, but differ from list in that, the whole
-sequences DOES NOT get produced all at once before iteration starts to initiate, rather, the value gets produce as
-iteration progresses.
+1. Generators:
+	Is an "Iterator", where a sequences of value is generated, just like a List, but differ from list in that, the whole
+	sequences DOES NOT get produced all at once before iteration starts to initiate, rather, the value gets produce as
+	iteration progresses.
 
  - Generator Expression (do not confuse with List Comprehension):
  	# A list comprehension
@@ -66,11 +66,31 @@ iteration progresses.
 	and continue to run the function until is told to stop.
 	
 	**However, Generator Function CAN contain "return" in order to stop the program.
+
+
+2. Stacks and Queues:
+	Types of data structure (e.g. Class defining) that restrict the way data getting extracted, 
+	following LIFO for Stack and FIFO for Queues.
 	
-	## please improve notes jaan <3
+3. Inheritance:
+	Subclass inherits methods from Baseclass, multiple subclasses can inherits from the same base.
+	Methods that got redefined in subclasses will Overwrite the methods with the same names from base.
+	
+	syntax for defining a subclass that inherits from a baseclass named Base:
+	
+	>>> class Sub(Base):
+	
 
+4. Duck Typing:
+	A way of variables handling used in some languagues such as python, that many others do not, like Java.
+	In language that uses duck typing, types of variables are not explicitly defined, thus a program will not
+	consider whether a method is suitable to be called on the variable before executing to ensure correct behavior, 
+	rather it will throw errors when execution fails.
+	"When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck"
+	
 
-
+# please improve notes jaan <3
+	
 
 
 
