@@ -89,7 +89,13 @@ This list doesn't have to be particularly detailed, but should be a starting poi
 	"When I see a bird that walks like a duck and swims like a duck and quacks like a duck, I call that bird a duck"
 	
 
-# please improve notes jaan <3
+5. Search method:
+	
+	-BFS: where an initial point is chosen, and the search spread outward in all directions, checking whether 
+	      the neighbor of those searched cells are searched and update accordingly.
+	
+	-DFS: where an initial point is given, and the search begin	the search unidirectionally until deadend is reached,
+	      then change another direction to continue.
 	
 
 
