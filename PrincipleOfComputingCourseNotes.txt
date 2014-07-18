@@ -96,7 +96,19 @@ This list doesn't have to be particularly detailed, but should be a starting poi
 	
 	-DFS: where an initial point is given, and the search begin	the search unidirectionally until deadend is reached,
 	      then change another direction to continue.
-	
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+<week_5>
+
+1. Recursion:
+
+	- Define a function and then call itself with less (smaller) data set after each successive calls.
+	- It is used to solve problem which consists of smaller sub-problem with similar characteristics.
+		# First a base case (can be solved easily at once) is identified and defied
+		# Then Recursive or Inductive steps are defined to aid the solving of problem by repetive calls to that step.
+		
+		
 
 
 
