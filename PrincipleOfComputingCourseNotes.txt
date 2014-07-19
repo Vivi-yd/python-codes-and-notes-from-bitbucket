@@ -108,7 +108,29 @@ This list doesn't have to be particularly detailed, but should be a starting poi
 		# First a base case (can be solved easily at once) is identified and defied
 		# Then Recursive or Inductive steps are defined to aid the solving of problem by repetive calls to that step.
 		
-		
+
+If a recursive function is designed so that each invocation of the body makes at most one new recursive call, this is
+known as linear recursion. (The second fib function which I wrote is an example) . The binary search code too is linear. 
+
+A recursion is a tail recursion if any recursive call that is made from one context is the very
+last operation in that context, with the return value of the recursive call (if any) immediately returned 
+by the enclosing recursion. By necessity, a tail recursion must be a linear recursion. 
+(In the binary search method we have used tail recursion) . 
+
+- Traditional recursive function calls all of the recursive steps before computing the result at the end 
+and return the answer right after that computation.
+
+- Tail recursion, computes the result before proceeding into the next recursive step, the input of the next 
+recursive step is being updated, and thus keeping of previous operations is not required. 
+
+
+2. Recurrence:
+
+	-An equation that defines a sequences recursively, when 1 or more base value given initially, 
+	all subsequent terms is defined as a function of the preceding terms.
+
+	-A closed form solution provides a single function of n that approximate a recurrence relation 
+	to produce the nth term of the sequences but eliminate the recursive component of the function.	
 
 
 
