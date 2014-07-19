@@ -132,5 +132,25 @@ recursive step is being updated, and thus keeping of previous operations is not 
 	-A closed form solution provides a single function of n that approximate a recurrence relation 
 	to produce the nth term of the sequences but eliminate the recursive component of the function.	
 
+3. Reading File:
 
+	Reading off network, will need urllib2 or codeskuptor module and call it as in this example:
+	http://www.codeskulptor.org/#examples_files.py
+
+	Reading off hard-drive will need to provide the FULL path of the file location to the window 
+	and assigned it as file_name, then call: 
+
+	>>> open(file_name, ‘r’)
+	** ‘r’ for read, ‘w’ for write.
+
+	After opening there are 4 ways to read:
+
+	- file_name.readline() -- print lines with new line (\n) spaces.
+
+	- for line in file_name:
+		print line  -- print the whole file
+
+	- print(file_name.read()) -- whole file in a single string. (including  the newline character (\n))
+
+	- file_name.readlines() -- list of all the lines (including  the newline character (\n))
 
